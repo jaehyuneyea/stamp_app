@@ -1,0 +1,22 @@
+name: Stamp API Actions
+on: 
+  pull_request:
+    branches:
+      - main
+jobs:
+  Set-Up-JDK:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4.2.1
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: Build Maven
+        run: |
+          mvn -B package --file pom.xml
+          
+          
+      
+  
