@@ -19,6 +19,10 @@ public class UserRestController {
 
     @GetMapping("/users/{id}")
     public User findById(@PathVariable Integer id) {
+        if (id < 0) {
+            // throw the exception to be caught in the exception handler
+            throw new UserNotFoundException("Invalid ID: " + id);
+        }
         return userService.findById(id);
     }
 
@@ -40,6 +44,10 @@ public class UserRestController {
 
     @DeleteMapping("/users/{id}")
     public void deleteUser(@PathVariable Integer id) {
+        User user = userService.findById(id);
+        if(id < 0) {
+            throw new UserNotFoundException("Invalid ID: " + id);
+        }
         userService.delete(id);
     }
 }
