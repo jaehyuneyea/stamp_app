@@ -12,6 +12,7 @@ jobs:
         uses: actions/setup-java@v4.2.1
         with:
           java-version: '17'
+          distrubtion: 'temurin'
           
       - name: Set up Postgres
         uses: harmon758/postgresql-action@v1
