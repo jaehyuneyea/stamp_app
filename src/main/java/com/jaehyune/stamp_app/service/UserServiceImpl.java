@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
         if (result.isPresent()) {
             return result.get();
         } else {
-            throw new RuntimeException("Did not find employee with ID" + id);
+            throw new RuntimeException("Did not find User with ID: " + id);
         }
     }
 
