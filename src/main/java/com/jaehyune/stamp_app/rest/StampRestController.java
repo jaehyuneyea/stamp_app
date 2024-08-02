@@ -16,31 +16,31 @@ public class StampRestController {
     }
 
     // add stamp
-    @PostMapping("/stamp")
+    @PostMapping("/stamps")
     public Stamp addStamp(@RequestBody Stamp stamp) {
         stamp.setId(0); // because stamp adds when id = 0 and sets id automatically in db
         return stampService.save(stamp);
     }
     // update stamp
-    @PutMapping("/stamp")
+    @PutMapping("/stamps")
     public Stamp updateStamp(@RequestBody Stamp stamp) {
         return stampService.save(stamp);
     }
 
     // read stamp by id
-    @GetMapping("/stamp/{id}")
+    @GetMapping("/stamps/{id}")
     public Stamp findById(@PathVariable Integer id) {
         return stampService.findById(id);
     }
 
     // read all stamps
-    @GetMapping("/stamp")
+    @GetMapping("/stamps")
     public List<Stamp> findAll() {
         return stampService.findAll();
     }
 
     // delete stamp by id
-    @DeleteMapping("/stamp/{id}")
+    @DeleteMapping("/stamps/{id}")
     public void deleteStamp(@PathVariable Integer id) {
         stampService.delete(id);
     }
