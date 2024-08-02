@@ -21,7 +21,7 @@ public class UserRestController {
     public User findById(@PathVariable Integer id) {
         if (id < 0) {
             // throw the exception to be caught in the exception handler
-            throw new UserNotFoundException("Invalid ID: " + id);
+            throw new IdNotFoundException("Invalid ID: " + id);
         }
         return userService.findById(id);
     }
@@ -46,7 +46,7 @@ public class UserRestController {
     public void deleteUser(@PathVariable Integer id) {
         User user = userService.findById(id);
         if(id < 0) {
-            throw new UserNotFoundException("Invalid ID: " + id);
+            throw new IdNotFoundException("Invalid ID: " + id);
         }
         userService.delete(id);
     }

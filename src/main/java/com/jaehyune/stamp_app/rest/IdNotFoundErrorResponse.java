@@ -1,16 +1,16 @@
 package com.jaehyune.stamp_app.rest;
 
-public class UserErrorResponse {
+public class IdNotFoundErrorResponse {
 
     private int status;
     private String message;
     private long timestamp;
 
-    public UserErrorResponse() {
+    public IdNotFoundErrorResponse() {
 
     }
 
-    public UserErrorResponse(int status, String message, long timestamp) {
+    public IdNotFoundErrorResponse(int status, String message, long timestamp) {
         this.status = status;
         this.message = message;
         this.timestamp = timestamp;

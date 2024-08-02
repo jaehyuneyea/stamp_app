@@ -10,6 +10,7 @@ import java.util.List;
 public class StampRestController {
 
     private StampService stampService;
+    // TODO: Add Comment entity
 
     public StampRestController(StampService stampService) {
         this.stampService = stampService;
@@ -30,6 +31,9 @@ public class StampRestController {
     // read stamp by id
     @GetMapping("/stamps/{id}")
     public Stamp findById(@PathVariable Integer id) {
+        if (id < 0) {
+            throw new IdNotFoundException("Invalid ID: " + id);
+        }
         return stampService.findById(id);
     }
 
@@ -42,6 +46,9 @@ public class StampRestController {
     // delete stamp by id
     @DeleteMapping("/stamps/{id}")
     public void deleteStamp(@PathVariable Integer id) {
+        if (id < 0) {
+            throw new IdNotFoundException("Invalid ID: " + id);
+        }
         stampService.delete(id);
     }
 }
