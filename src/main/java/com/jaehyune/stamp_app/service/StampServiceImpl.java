@@ -2,10 +2,12 @@ package com.jaehyune.stamp_app.service;
 
 import com.jaehyune.stamp_app.entity.Stamp;
 import com.jaehyune.stamp_app.repository.StampRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class StampServiceImpl implements StampService {
 
     private StampRepository stampRepository;
