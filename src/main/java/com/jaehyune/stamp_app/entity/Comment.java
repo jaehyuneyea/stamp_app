@@ -14,8 +14,8 @@ public class Comment {
     private Integer id;
 
     @ManyToOne
-    @Column(name = "stamp_id")
-    private Integer stamp_id;
+    @JoinColumn(name = "stamp_id")
+    private Stamp stamp_id;
 
     @Column(name = "parent_id")
     private Integer parent_id;
@@ -31,7 +31,7 @@ public class Comment {
 
     }
 
-    public Comment(Integer stamp_id, Integer parent_id, String description, Date date_created) {
+    public Comment(Stamp stamp_id, Integer parent_id, String description, Date date_created) {
         this.stamp_id = stamp_id;
         this.parent_id = parent_id;
         this.description = description;
@@ -46,11 +46,11 @@ public class Comment {
         this.id = id;
     }
 
-    public Integer getStamp_id() {
+    public Stamp getStamp_id() {
         return stamp_id;
     }
 
-    public void setStamp_id(Integer stamp_id) {
+    public void setStamp_id(Stamp stamp_id) {
         this.stamp_id = stamp_id;
     }
 
