@@ -2,6 +2,8 @@ package com.jaehyune.stamp_app.entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name="stamps")
 public class Stamp {
@@ -19,6 +21,17 @@ public class Stamp {
 
     @Column(name="railway")
     private String railway;
+
+    @OneToMany(mappedBy = "stamp_id")
+    private List<Comment> comments;
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
 
     public Stamp() {
 
