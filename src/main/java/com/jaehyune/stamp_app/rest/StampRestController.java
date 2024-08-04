@@ -10,7 +10,6 @@ import java.util.List;
 public class StampRestController {
 
     private StampService stampService;
-    // TODO: Add Comment entity
 
     public StampRestController(StampService stampService) {
         this.stampService = stampService;
