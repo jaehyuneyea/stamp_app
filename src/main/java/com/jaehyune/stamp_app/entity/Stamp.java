@@ -1,6 +1,9 @@
 package com.jaehyune.stamp_app.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name="stamps")
@@ -19,6 +22,18 @@ public class Stamp {
 
     @Column(name="railway")
     private String railway;
+
+    @OneToMany(mappedBy = "stamp_id")
+    @JsonManagedReference
+    private List<Comment> comments;
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
 
     public Stamp() {
 
