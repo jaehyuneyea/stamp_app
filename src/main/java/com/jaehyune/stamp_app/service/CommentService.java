@@ -1,16 +1,20 @@
 package com.jaehyune.stamp_app.service;
 
+import com.jaehyune.stamp_app.dto.CommentDTO;
 import com.jaehyune.stamp_app.entity.Comment;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
 public interface CommentService {
 
-    Comment save(Comment comment);
+    Comment save(CommentDTO dto, Integer stamp_id);
 
-    Comment findById(Integer id);
+    CommentDTO findById(Integer id);
 
-    List<Comment> findAll();
+    List<CommentDTO> findAll();
+
+    List<CommentDTO> findAllCommentForStamp(Integer stamp_id);
 
     void delete(Integer id);
 }
