@@ -1,5 +1,6 @@
 package com.jaehyune.stamp_app.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -15,6 +16,7 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name = "stamp_id")
+    @JsonBackReference
     private Stamp stamp_id;
 
     @Column(name = "parent_id")

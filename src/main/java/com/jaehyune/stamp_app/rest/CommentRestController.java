@@ -9,6 +9,8 @@ import java.util.List;
 @RestController
 public class CommentRestController {
 
+    // TODO: On requesting on certain stamp, all associated comments should also be returned
+    // TODO: Posting comments to stamps
     private CommentService commentService;
 
     public CommentRestController(CommentService commentService) {
