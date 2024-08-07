@@ -1,6 +1,6 @@
 ## Japan Railway Stamp App
 
-This app is a HATEOAS-compliant application made with Spring Boot designed for people who are interested in Japan's railway stamp collection system. This app looks to solve the problem of hard-to-find stamps and stamps that
+This app is a server application made with Spring Boot intended to be consumed by a web front-end designed for people who are interested in Japan's railway stamp collection system. This app looks to solve the problem of hard-to-find stamps and stamps that
 no-longer exist by creating a hub where collectors can gather to share latest information about a specific stamp.
 
 The stamp page provides information on the stamp's location: the railway system and the station number along with its visual and size.
