@@ -1,19 +1,21 @@
 package com.jaehyune.stamp_app.service;
 
+import com.jaehyune.stamp_app.dto.StampDTO;
 import com.jaehyune.stamp_app.entity.Stamp;
 
 import java.util.List;
 
-public interface StampService {
+public interface StampService extends ConverterMediator<Stamp, StampDTO> {
+
 
     // create or save a stamp
-    Stamp save(Stamp stamp);
+    Stamp save(StampDTO dto);
 
     // read a stamp by id
-    Stamp findById(Integer id);
+    StampDTO findById(Integer id);
 
     // read all stamps
-    List<Stamp> findAll();
+    List<StampDTO> findAll();
 
     // delete a stamp by id
     void delete(Integer id);

@@ -1,10 +1,12 @@
 package com.jaehyune.stamp_app.entity;
 
 import jakarta.persistence.*;
+import org.springframework.hateoas.RepresentationModel;
 
 @Entity
 @Table(name="users")
-public class User {
+public class User extends RepresentationModel<User> {
+    // TODO: Handle HATEOAS format
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
