@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-public interface CommentService extends ConverterMediator<Comment, CommentDTO> {
+public interface CommentService extends ConverterMediator<Comment, CommentDTO  > {
 
     Comment save(CommentDTO dto, Integer stamp_id);
 

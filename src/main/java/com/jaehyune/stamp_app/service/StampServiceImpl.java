@@ -13,7 +13,7 @@ import java.util.Optional;
 @Service
 public class StampServiceImpl implements StampService {
     private StampRepository stampRepository;
-    private ConverterMediator<Comment, CommentDTO> converterMediator; // this seems very bad
+    private ConverterMediator<Comment, CommentDTO> converterMediator;
 
     public StampServiceImpl(StampRepository stampRepository, ConverterMediator<Comment, CommentDTO> converterMediator) {
         this.stampRepository = stampRepository;
