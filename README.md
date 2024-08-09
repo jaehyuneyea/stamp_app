@@ -10,9 +10,9 @@ in enterprise apps and deploying it to the cloud.
 
 ## Design Architecture
 
-![image](https://github.com/user-attachments/assets/4e7fef70-7bb7-4499-be18-964cf37a6ef4)
+![image](diagrams/db.png)
 
-![image](https://github.com/user-attachments/assets/4e6b4416-ffa6-4436-88ab-d865110943ca)
+![image](diagrams/services.png)
 
-![image](https://github.com/user-attachments/assets/10dc9992-9acb-445b-bed7-3ce1485f77db)
+![image](diagrams/cloud.png)
 
