@@ -1,5 +1,7 @@
 package com.jaehyune.stamp_app.service;
 
+import com.jaehyune.stamp_app.dto.UserCreationDTO;
+import com.jaehyune.stamp_app.dto.UserDTO;
 import com.jaehyune.stamp_app.entity.User;
 import com.jaehyune.stamp_app.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -18,9 +20,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User save(User user) {
+    public UserDTO updateUser(User user) {
+        // TODO: Add username and email validation
         // save the user object to the db then return the user
-        return userRepository.save(user);
+        userRepository.save(user);
+        return toDto(user);
     }
 
     @Override
@@ -29,17 +33,53 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findById(Integer id) {
+    public UserDTO findById(Integer id) {
         Optional<User> result = userRepository.findById(id);
         if (result.isPresent()) {
-            return result.get();
+            return toDto(result.get());
         } else {
             throw new RuntimeException("Did not find User with ID: " + id);
         }
     }
 
     @Override
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public List<UserDTO> findAll() {
+        List<User> users = userRepository.findAll();
+        return users.stream().map(this::toDto).toList();
+    }
+
+    @Override
+    public UserDTO createUser(UserCreationDTO dto) {
+        // TODO: Add username and email validation
+        // save the user object to the db then return the user
+        User user = new User();
+        user.setUsername(dto.getUsername());
+        user.setEmail(dto.getEmail());
+        user.setPassword(dto.getPassword());
+
+        userRepository.save(user);
+
+        return toDto(user);
+    }
+
+    @Override
+    public User toEntity(UserDTO dto) {
+        User user = new User();
+
+        user.setId(dto.getId());
+        user.setEmail(dto.getEmail());
+        user.setUsername(dto.getUsername());
+
+        return user;
+    }
+
+    @Override
+    public UserDTO toDto(User user) {
+        UserDTO dto = new UserDTO();
+        dto.setId(user.getId());
+        dto.setEmail(user.getEmail());
+        dto.setUsername(user.getUsername());
+
+        return dto;
     }
 }
