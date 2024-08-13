@@ -2,13 +2,14 @@ package com.jaehyune.stamp_app.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.util.Date;
 
 @Entity
 @Table(name="comments")
 public class Comment {
-    // TODO: Ensure that the stamp endpoint also loads all comments associated with that stamp
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -44,6 +45,11 @@ public class Comment {
         this.parent_id = parent_id;
         this.description = description;
         this.date_created = date_created;
+    }
+
+    @PrePersist
+    public void date_created() {
+        this.date_created = new Date();
     }
 
     public Integer getId() {

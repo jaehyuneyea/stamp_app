@@ -82,12 +82,10 @@ public class CommentServiceImpl implements CommentService {
     public Comment toEntity(CommentCreationDTO dto) {
         Comment comment = new Comment();
         String description = dto.getDescription();
-        Date date = dto.getDate_created();
         Integer parent_id = dto.getParent_id();
         Integer user_id = dto.getUser_id();
 
         comment.setDescription(description);
-        comment.setDate_created(date);
         comment.setParent_id(parent_id);
 
         Optional<User> tempUser = userRepository.findById(user_id);

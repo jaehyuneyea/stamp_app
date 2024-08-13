@@ -11,7 +11,6 @@ import java.util.List;
 @RestController
 public class CommentRestController {
 
-    // TODO: Users should own comments
     private CommentService commentService;
 
     public CommentRestController(CommentService commentService) {
