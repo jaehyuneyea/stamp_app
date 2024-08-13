@@ -1,6 +1,9 @@
 package com.jaehyune.stamp_app.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 
 @Entity
@@ -21,6 +24,10 @@ public class User {
 
     @Column(name="password")
     private String password;
+
+    @OneToMany(mappedBy = "user_id")
+    @JsonManagedReference
+    private List<Comment> comments;
 
     public User() {
 
@@ -62,6 +69,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 
     @Override

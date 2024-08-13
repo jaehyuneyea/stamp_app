@@ -1,11 +1,14 @@
 package com.jaehyune.stamp_app.service;
 
-import com.jaehyune.stamp_app.dto.CommentDTO;
-import com.jaehyune.stamp_app.dto.StampDTO;
+import com.jaehyune.stamp_app.dto.CommentCreationDTO;
+import com.jaehyune.stamp_app.dto.CommentReadDTO;
+import com.jaehyune.stamp_app.dto.UserDTO;
 import com.jaehyune.stamp_app.entity.Comment;
 import com.jaehyune.stamp_app.entity.Stamp;
+import com.jaehyune.stamp_app.entity.User;
 import com.jaehyune.stamp_app.repository.CommentRepository;
 import com.jaehyune.stamp_app.repository.StampRepository;
+import com.jaehyune.stamp_app.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -17,14 +20,16 @@ public class CommentServiceImpl implements CommentService {
 
     private CommentRepository commentRepository;
     private StampRepository stampRepository;
+    private UserRepository userRepository;
 
-    public CommentServiceImpl(CommentRepository commentRepository, StampRepository stampRepository) {
+    public CommentServiceImpl(CommentRepository commentRepository, StampRepository stampRepository, UserRepository userRepository) {
         this.commentRepository = commentRepository;
         this.stampRepository = stampRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
-    public Comment save(CommentDTO dto, Integer stamp_id) {
+    public Comment save(CommentCreationDTO dto, Integer stamp_id) {
         if (stamp_id == null || stamp_id < 0) {
             throw new RuntimeException("Invalid ID: " + stamp_id);
         }
@@ -40,7 +45,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public CommentDTO findById(Integer id) {
+    public CommentReadDTO findById(Integer id) {
         Optional<Comment> comment = commentRepository.findById(id);
 
         if (comment.isPresent()) {
@@ -51,17 +56,22 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<CommentDTO> findAll() {
+    public List<CommentReadDTO> findAll() {
         List<Comment> comments = commentRepository.findAll();
         return comments.stream().map(this::toDto).toList();
     }
 
     @Override
-    public List<CommentDTO> findAllCommentForStamp(Integer stamp_id) {
-//        List<Comment> comments = stampService.findById(stamp_id).getComments();
-//        return comments.stream().map(this::convertToDTO).toList();
-        // TODO: Move stamp service reference to another layer
-        return List.of();
+    public List<CommentReadDTO> findAllCommentForStamp(Integer stamp_id) {
+        Optional<Stamp> temp = stampRepository.findById(stamp_id);
+        Stamp stamp;
+        if (temp.isPresent()) {
+            stamp = temp.get();
+        } else {
+            throw new RuntimeException("Did not find Comment with ID: " + stamp_id);
+        }
+        List<Comment> comments = stamp.getComments();
+        return comments.stream().map(this::toDto).toList();
     }
 
     @Override
@@ -69,26 +79,37 @@ public class CommentServiceImpl implements CommentService {
         commentRepository.deleteById(id);
     }
 
-    public Comment toEntity(CommentDTO dto) {
+    public Comment toEntity(CommentCreationDTO dto) {
         Comment comment = new Comment();
         String description = dto.getDescription();
-        Date date = dto.getDate_created();
         Integer parent_id = dto.getParent_id();
-        Integer id = dto.getId();
+        Integer user_id = dto.getUser_id();
 
-        comment.setId(id);
         comment.setDescription(description);
-        comment.setDate_created(date);
         comment.setParent_id(parent_id);
 
+        Optional<User> tempUser = userRepository.findById(user_id);
+
+        if (tempUser.isPresent()) {
+            comment.setUser_id(tempUser.get());
+        } else {
+            throw new RuntimeException("Did not find User with ID: " + user_id);
+        }
         return comment;
     }
+
     @Override
-    public CommentDTO toDto(Comment comment) {
+    public Comment toEntity(CommentReadDTO dto) {
+        return null;
+    }
+
+    @Override
+    public CommentReadDTO toDto(Comment comment) {
         String description = comment.getDescription();
         Date date = comment.getDate_created();
         Integer parent_id = comment.getParent_id();
         Integer id = comment.getId();
-        return new CommentDTO(id, description , date, parent_id);
+        String username = comment.getUser_id().getUsername();
+        return new CommentReadDTO(id, description , date, parent_id, username);
     }
 }

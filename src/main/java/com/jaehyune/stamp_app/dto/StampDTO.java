@@ -12,7 +12,7 @@ public class StampDTO {
 
     private String railway;
 
-    private List<CommentDTO> comments;
+    private List<CommentReadDTO> comments;
 
     public StampDTO() {
 
@@ -57,11 +57,11 @@ public class StampDTO {
         this.railway = railway;
     }
 
-    public List<CommentDTO> getComments() {
+    public List<CommentReadDTO> getComments() {
         return comments;
     }
 
-    public void setComments(List<CommentDTO> comments) {
+    public void setComments(List<CommentReadDTO> comments) {
         this.comments = comments;
     }
 }

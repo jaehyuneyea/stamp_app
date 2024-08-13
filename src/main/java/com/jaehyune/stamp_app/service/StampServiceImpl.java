@@ -1,6 +1,6 @@
 package com.jaehyune.stamp_app.service;
 
-import com.jaehyune.stamp_app.dto.CommentDTO;
+import com.jaehyune.stamp_app.dto.CommentReadDTO;
 import com.jaehyune.stamp_app.dto.StampDTO;
 import com.jaehyune.stamp_app.entity.Comment;
 import com.jaehyune.stamp_app.entity.Stamp;
@@ -13,9 +13,9 @@ import java.util.Optional;
 @Service
 public class StampServiceImpl implements StampService {
     private StampRepository stampRepository;
-    private ConverterMediator<Comment, CommentDTO> converterMediator;
+    private ConverterMediator<Comment, CommentReadDTO> converterMediator;
 
-    public StampServiceImpl(StampRepository stampRepository, ConverterMediator<Comment, CommentDTO> converterMediator) {
+    public StampServiceImpl(StampRepository stampRepository, ConverterMediator<Comment, CommentReadDTO> converterMediator) {
         this.stampRepository = stampRepository;
         this.converterMediator = converterMediator;
     }
@@ -55,7 +55,7 @@ public class StampServiceImpl implements StampService {
         stamp.setRating(dto.getRating());
         stamp.setRailway(dto.getRailway());
 
-        List<CommentDTO> commentDTOS = dto.getComments();
+        List<CommentReadDTO> commentDTOS = dto.getComments();
 
         stamp.setComments(commentDTOS.stream().map(commentDTO -> converterMediator.toEntity(commentDTO)).toList());
 

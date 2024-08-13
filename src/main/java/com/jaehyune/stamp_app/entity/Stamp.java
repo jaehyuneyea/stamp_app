@@ -27,14 +27,6 @@ public class Stamp {
     @JsonManagedReference
     private List<Comment> comments;
 
-    public List<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
-    }
-
     public Stamp() {
 
     }
@@ -75,5 +67,13 @@ public class Stamp {
 
     public void setRailway(String railway) {
         this.railway = railway;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }
