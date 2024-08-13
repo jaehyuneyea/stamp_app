@@ -19,6 +19,11 @@ public class Comment {
     @JsonBackReference
     private Stamp stamp_id;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonBackReference
+    private User user_id;
+
     @Column(name = "parent_id")
     private Integer parent_id;
 
@@ -33,8 +38,9 @@ public class Comment {
 
     }
 
-    public Comment(Stamp stamp_id, Integer parent_id, String description, Date date_created) {
+    public Comment(Stamp stamp_id, User user, Integer parent_id, String description, Date date_created) {
         this.stamp_id = stamp_id;
+        this.user_id = user;
         this.parent_id = parent_id;
         this.description = description;
         this.date_created = date_created;
@@ -50,6 +56,14 @@ public class Comment {
 
     public Stamp getStamp_id() {
         return stamp_id;
+    }
+
+    public User getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(User user_id) {
+        this.user_id = user_id;
     }
 
     public void setStamp_id(Stamp stamp_id) {
