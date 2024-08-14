@@ -10,7 +10,7 @@ import java.util.Date;
 public class Photo {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // TODO: possibly change to GUID later
     @Column(name = "id")
     private Integer id;
 
