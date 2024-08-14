@@ -82,7 +82,7 @@ public class Photo {
         return dateCreated;
     }
 
-    public void setDateCreated(Date dateCreated) {
+    private void setDateCreated(Date dateCreated) {
         this.dateCreated = dateCreated;
     }
 }

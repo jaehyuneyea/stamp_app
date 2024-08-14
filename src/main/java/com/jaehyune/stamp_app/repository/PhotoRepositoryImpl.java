@@ -16,7 +16,7 @@ public class PhotoRepositoryImpl implements PhotoRepository {
     }
 
     @Override
-    public Photo findById(int id) {
+    public Photo findById(Integer id) {
         return entityManager.find(Photo.class, id);
     }
 
@@ -34,7 +34,7 @@ public class PhotoRepositoryImpl implements PhotoRepository {
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(Integer id) {
         Photo photo = entityManager.find(Photo.class, id);
         entityManager.remove(photo);
         // TODO: We should perform disk operations here.

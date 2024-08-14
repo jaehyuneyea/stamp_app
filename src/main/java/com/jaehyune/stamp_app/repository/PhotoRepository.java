@@ -8,11 +8,11 @@ import java.util.List;
  * We use EntityManager instead of JPA Repository here for a finer control of saving to disk.
  */
 public interface PhotoRepository {
-    Photo findById(int id);
+    Photo findById(Integer id);
 
     List<Photo> findAll();
 
     Photo save(Photo photo);
 
-    void delete(int id);
+    void delete(Integer id);
 }
