@@ -1,10 +1,12 @@
 package com.jaehyune.stamp_app.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name="comments")
@@ -35,16 +37,21 @@ public class Comment {
     @Temporal(TemporalType.TIMESTAMP)
     private Date date_created;
 
+    @OneToMany(mappedBy = "comment")
+    @JsonManagedReference
+    private List<Photo> photos;
+
     public Comment() {
 
     }
 
-    public Comment(Stamp stamp_id, User user, Integer parent_id, String description, Date date_created) {
+    public Comment(Stamp stamp_id, User user, Integer parent_id, String description, Date date_created, List<Photo> photos) {
         this.stamp_id = stamp_id;
         this.user_id = user;
         this.parent_id = parent_id;
         this.description = description;
         this.date_created = date_created;
+        this.photos = photos;
     }
 
     @PrePersist
@@ -98,5 +105,13 @@ public class Comment {
 
     public void setDate_created(Date date_created) {
         this.date_created = date_created;
+    }
+
+    public List<Photo> getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(List<Photo> photos) {
+        this.photos = photos;
     }
 }

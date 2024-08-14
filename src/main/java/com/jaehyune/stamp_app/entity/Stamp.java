@@ -27,14 +27,18 @@ public class Stamp {
     @JsonManagedReference
     private List<Comment> comments;
 
+    @OneToOne(mappedBy = "stamp")
+    private Photo photo;
+
     public Stamp() {
 
     }
 
-    public Stamp(String description, float rating, String railway) {
+    public Stamp(String description, float rating, String railway, Photo photo) {
         this.description = description;
         this.rating = rating;
         this.railway = railway;
+        this.photo = photo;
     }
 
     public Integer getId() {
@@ -75,5 +79,13 @@ public class Stamp {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public Photo getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(Photo photo) {
+        this.photo = photo;
     }
 }
