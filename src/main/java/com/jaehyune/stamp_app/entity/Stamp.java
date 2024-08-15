@@ -28,6 +28,7 @@ public class Stamp {
     private List<Comment> comments;
 
     @OneToOne(mappedBy = "stamp")
+    @JsonManagedReference
     private Photo photo;
 
     public Stamp() {

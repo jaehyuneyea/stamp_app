@@ -3,6 +3,7 @@ package com.jaehyune.stamp_app.dto;
 import java.util.List;
 
 public class StampDTO {
+    // TODO: You left off here, return photos in stampDTO then test and handle disk storage
 
     private Integer id;
 

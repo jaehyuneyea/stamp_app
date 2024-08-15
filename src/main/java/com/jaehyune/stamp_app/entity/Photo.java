@@ -16,7 +16,7 @@ public class Photo {
 
     @OneToOne
     @JoinColumn(name = "stamp_id") // owning side (one with foreign key) gets the @JoinColumn
-    // TODO: Need backreference?
+    @JsonBackReference
     private Stamp stamp;
 
     @ManyToOne

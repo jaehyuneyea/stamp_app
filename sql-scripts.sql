@@ -40,7 +40,7 @@ CREATE TABLE photos (
    stamp_id INT DEFAULT NULL,
    user_id INT DEFAULT NULL,
    comment_id INT DEFAULT NULL,
-   file_path text NOT NULL,
+   file_path text DEFAULT NULL,
    date_created timestamp DEFAULT CURRENT_TIMESTAMP,
    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
    FOREIGN KEY (comment_id) REFERENCES comments(id) ON DELETE CASCADE

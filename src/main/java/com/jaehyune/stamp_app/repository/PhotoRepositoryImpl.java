@@ -4,9 +4,11 @@ import com.jaehyune.stamp_app.entity.Photo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public class PhotoRepositoryImpl implements PhotoRepository {
 
     private EntityManager entityManager;

@@ -8,10 +8,12 @@ import com.jaehyune.stamp_app.repository.CommentRepository;
 import com.jaehyune.stamp_app.repository.PhotoRepository;
 import com.jaehyune.stamp_app.repository.StampRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class PhotoServiceImpl implements PhotoService {
 
     private PhotoRepository photoRepository;
@@ -50,17 +52,21 @@ public class PhotoServiceImpl implements PhotoService {
     @Override
     public Photo toEntity(PhotoDTO dto) {
         Photo photo = new Photo();
-        Optional<Comment> optComment = commentRepository.findById(dto.getComment_id());
-        Optional<Stamp> optStamp = stampRepository.findById(dto.getStamp_id());
-        if (optComment.isPresent()) {
-            photo.setComment(optComment.get());
-        } else {
-            throw new RuntimeException("Did not find Comment with ID: " + dto.getComment_id());
+        if (dto.getComment_id() != null) {
+            Optional<Comment> optComment = commentRepository.findById(dto.getComment_id());
+            if (optComment.isPresent()) {
+                photo.setComment(optComment.get());
+            } else {
+                throw new RuntimeException("Did not find Comment with ID: " + dto.getComment_id());
+            }
         }
-        if (optStamp.isPresent()) {
-            photo.setStamp(optStamp.get());
-        } else {
-            throw new RuntimeException("Did not find Stamp with ID: " + dto.getStamp_id());
+        if (dto.getStamp_id() != null) {
+            Optional<Stamp> optStamp = stampRepository.findById(dto.getStamp_id());
+            if (optStamp.isPresent()) {
+                photo.setStamp(optStamp.get());
+            } else {
+                throw new RuntimeException("Did not find Stamp with ID: " + dto.getStamp_id());
+            }
         }
         return photo;
     }
