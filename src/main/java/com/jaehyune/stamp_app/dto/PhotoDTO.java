@@ -1,5 +1,9 @@
 package com.jaehyune.stamp_app.dto;
 
+/**
+ * This is the metadata for the image that will be passed in along with the actual file.
+ * filePath is not required when being passed in, but required when being from the database.
+ */
 public class PhotoDTO {
 
     private Integer id;
@@ -8,14 +12,17 @@ public class PhotoDTO {
 
     private Integer comment_id;
 
+    private String filePath;
+
 
     public PhotoDTO() {
 
     }
 
-    public PhotoDTO(Integer stamp_id, Integer comment_id) {
+    public PhotoDTO(Integer stamp_id, Integer comment_id, String filePath) {
         this.stamp_id = stamp_id;
         this.comment_id = comment_id;
+        this.filePath = filePath;
     }
 
     public Integer getId() {
@@ -40,5 +47,13 @@ public class PhotoDTO {
 
     public void setComment_id(Integer comment_id) {
         this.comment_id = comment_id;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 }

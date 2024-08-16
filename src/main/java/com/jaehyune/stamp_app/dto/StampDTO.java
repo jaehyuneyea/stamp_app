@@ -4,6 +4,8 @@ import java.util.List;
 
 public class StampDTO {
     // TODO: You left off here, return photos in stampDTO then test and handle disk storage
+    // TODO: and also test passing in photo without id; I think we need to pass in multipartFile from the controller.
+    // TODO: Shouldn't the Photo have a File field? And is it ok for it to pass in a DTO instead of FileStream?
 
     private Integer id;
 
@@ -15,15 +17,18 @@ public class StampDTO {
 
     private List<CommentReadDTO> comments;
 
+    private PhotoDTO photo;
+
     public StampDTO() {
 
     }
 
-    public StampDTO(Integer id, String description, float rating, String railway) {
+    public StampDTO(Integer id, String description, float rating, String railway, PhotoDTO photo) {
         this.id = id;
         this.description = description;
         this.rating = rating;
         this.railway = railway;
+        this.photo = photo;
     }
 
     public Integer getId() {
@@ -64,5 +69,13 @@ public class StampDTO {
 
     public void setComments(List<CommentReadDTO> comments) {
         this.comments = comments;
+    }
+
+    public PhotoDTO getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(PhotoDTO photo) {
+        this.photo = photo;
     }
 }

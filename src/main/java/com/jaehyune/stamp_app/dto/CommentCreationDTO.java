@@ -1,6 +1,7 @@
 package com.jaehyune.stamp_app.dto;
 
 import java.util.Date;
+import java.util.List;
 
 public class CommentCreationDTO {
     // for creation it should be the user id instead
@@ -8,15 +9,17 @@ public class CommentCreationDTO {
     private String description;
     private Integer parent_id;
     private Integer user_id;
+    private List<PhotoDTO> photos;
 
     public CommentCreationDTO() {
 
     }
 
-    public CommentCreationDTO(String description, Integer parent_id, Integer user_id) {
+    public CommentCreationDTO(String description, Integer parent_id, Integer user_id, List<PhotoDTO> photos) {
         this.description = description;
         this.parent_id = parent_id;
         this.user_id = user_id;
+        this.photos = photos;
     }
 
     public String getDescription() {
@@ -41,5 +44,13 @@ public class CommentCreationDTO {
 
     public void setUser_id(Integer user_id) {
         this.user_id = user_id;
+    }
+
+    public List<PhotoDTO> getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(List<PhotoDTO> photos) {
+        this.photos = photos;
     }
 }

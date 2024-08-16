@@ -2,8 +2,10 @@ package com.jaehyune.stamp_app.service;
 
 import com.jaehyune.stamp_app.dto.CommentCreationDTO;
 import com.jaehyune.stamp_app.dto.CommentReadDTO;
+import com.jaehyune.stamp_app.dto.PhotoDTO;
 import com.jaehyune.stamp_app.dto.UserDTO;
 import com.jaehyune.stamp_app.entity.Comment;
+import com.jaehyune.stamp_app.entity.Photo;
 import com.jaehyune.stamp_app.entity.Stamp;
 import com.jaehyune.stamp_app.entity.User;
 import com.jaehyune.stamp_app.repository.CommentRepository;
@@ -21,11 +23,13 @@ public class CommentServiceImpl implements CommentService {
     private CommentRepository commentRepository;
     private StampRepository stampRepository;
     private UserRepository userRepository;
+    private ConverterMediator<Photo, PhotoDTO> photoConverter;
 
-    public CommentServiceImpl(CommentRepository commentRepository, StampRepository stampRepository, UserRepository userRepository) {
+    public CommentServiceImpl(CommentRepository commentRepository, StampRepository stampRepository, UserRepository userRepository, ConverterMediator<Photo, PhotoDTO> photoConverter) {
         this.commentRepository = commentRepository;
         this.stampRepository = stampRepository;
         this.userRepository = userRepository;
+        this.photoConverter = photoConverter;
     }
 
     @Override
@@ -95,6 +99,8 @@ public class CommentServiceImpl implements CommentService {
         } else {
             throw new RuntimeException("Did not find User with ID: " + user_id);
         }
+        List<PhotoDTO> photoDTOS = dto.getPhotos();
+        comment.setPhotos(photoDTOS.stream().map(photoDTO -> photoConverter.toEntity(photoDTO)).toList());
         return comment;
     }
 
@@ -110,6 +116,14 @@ public class CommentServiceImpl implements CommentService {
         Integer parent_id = comment.getParent_id();
         Integer id = comment.getId();
         String username = comment.getUser_id().getUsername();
-        return new CommentReadDTO(id, description , date, parent_id, username);
+        List<PhotoDTO> photoDTOS;
+        try {
+            List<Photo> photos = comment.getPhotos();
+            photoDTOS = photos.stream().map(photo -> photoConverter.toDto(photo)).toList();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return new CommentReadDTO(id, description , date, parent_id, username, photoDTOS);
     }
 }

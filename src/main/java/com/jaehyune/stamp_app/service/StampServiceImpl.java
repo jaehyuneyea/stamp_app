@@ -1,8 +1,10 @@
 package com.jaehyune.stamp_app.service;
 
 import com.jaehyune.stamp_app.dto.CommentReadDTO;
+import com.jaehyune.stamp_app.dto.PhotoDTO;
 import com.jaehyune.stamp_app.dto.StampDTO;
 import com.jaehyune.stamp_app.entity.Comment;
+import com.jaehyune.stamp_app.entity.Photo;
 import com.jaehyune.stamp_app.entity.Stamp;
 import com.jaehyune.stamp_app.repository.StampRepository;
 import org.springframework.stereotype.Service;
@@ -13,11 +15,13 @@ import java.util.Optional;
 @Service
 public class StampServiceImpl implements StampService {
     private StampRepository stampRepository;
-    private ConverterMediator<Comment, CommentReadDTO> converterMediator;
+    private ConverterMediator<Comment, CommentReadDTO> commentConverter;
+    private ConverterMediator<Photo, PhotoDTO> photoConverter;
 
-    public StampServiceImpl(StampRepository stampRepository, ConverterMediator<Comment, CommentReadDTO> converterMediator) {
+    public StampServiceImpl(StampRepository stampRepository, ConverterMediator<Comment, CommentReadDTO> commentConverter, ConverterMediator<Photo, PhotoDTO> photoConverter) {
         this.stampRepository = stampRepository;
-        this.converterMediator = converterMediator;
+        this.commentConverter = commentConverter;
+        this.photoConverter = photoConverter;
     }
 
     @Override
@@ -56,9 +60,13 @@ public class StampServiceImpl implements StampService {
         stamp.setRailway(dto.getRailway());
 
         List<CommentReadDTO> commentDTOS = dto.getComments();
+        stamp.setComments(commentDTOS.stream().map(commentDTO -> commentConverter.toEntity(commentDTO)).toList());
 
-        stamp.setComments(commentDTOS.stream().map(commentDTO -> converterMediator.toEntity(commentDTO)).toList());
+        PhotoDTO photoDTO = dto.getPhoto();
+        if (photoDTO != null) {
+            stamp.setPhoto(photoConverter.toEntity(photoDTO));
 
+        }
         return stamp;
     }
 
@@ -71,8 +79,12 @@ public class StampServiceImpl implements StampService {
         dto.setRating(stamp.getRating());
 
         List<Comment> comments = stamp.getComments();
-        dto.setComments(comments.stream().map(comment -> converterMediator.toDto(comment)).toList());
+        dto.setComments(comments.stream().map(comment -> commentConverter.toDto(comment)).toList());
 
+        Photo photo = stamp.getPhoto();
+        if (photo != null ) {
+            dto.setPhoto(photoConverter.toDto(photo));
+        }
         return dto;
     }
 }
