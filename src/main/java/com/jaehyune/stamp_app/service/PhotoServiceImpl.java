@@ -46,7 +46,7 @@ public class PhotoServiceImpl implements PhotoService {
 
     @Override
     @Transactional
-    public void delete(Integer id) {
+    public void delete(String id) {
         photoRepository.delete(id);
     }
 

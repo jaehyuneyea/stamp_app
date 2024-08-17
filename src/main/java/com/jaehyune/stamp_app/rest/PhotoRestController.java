@@ -39,7 +39,7 @@ public class PhotoRestController {
     }
 
     @DeleteMapping("/photos/{photo_id}")
-    public void delete(@PathVariable Integer photo_id) {
+    public void delete(@PathVariable String photo_id) {
         photoService.delete(photo_id);
     }
 }

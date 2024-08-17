@@ -15,5 +15,5 @@ public interface PhotoRepository {
 
     Photo save(Photo photo, MultipartFile image);
 
-    void delete(Integer id);
+    void delete(String id);
 }

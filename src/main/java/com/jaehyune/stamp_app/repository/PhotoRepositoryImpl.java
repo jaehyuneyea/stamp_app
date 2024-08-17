@@ -55,9 +55,15 @@ public class PhotoRepositoryImpl implements PhotoRepository {
     }
 
     @Override
-    public void delete(Integer id) {
+    public void delete(String id) {
         Photo photo = entityManager.find(Photo.class, id);
+        try {
+            String filepath = "C:/Users/Alpha PC/Desktop/repos/stamp-app/images";
+            Path imagePath = Paths.get(filepath).resolve(photo.getId() + ".jpg");
+            Files.delete(imagePath);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         entityManager.remove(photo);
-        // TODO: We should perform disk operations here.
     }
 }

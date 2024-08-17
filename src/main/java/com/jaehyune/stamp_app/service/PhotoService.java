@@ -13,5 +13,5 @@ public interface PhotoService extends ConverterMediator<Photo, PhotoDTO> {
 
     List<PhotoDTO> findAll();
 
-    void delete(Integer id);
+    void delete(String id);
 }
