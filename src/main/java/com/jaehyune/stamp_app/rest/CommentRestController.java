@@ -2,6 +2,7 @@ package com.jaehyune.stamp_app.rest;
 
 import com.jaehyune.stamp_app.dto.CommentCreationDTO;
 import com.jaehyune.stamp_app.dto.CommentReadDTO;
+import com.jaehyune.stamp_app.dto.PhotoDTO;
 import com.jaehyune.stamp_app.entity.Comment;
 import com.jaehyune.stamp_app.entity.Photo;
 import com.jaehyune.stamp_app.service.CommentService;
@@ -12,6 +13,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @RestController
 public class CommentRestController {
@@ -47,16 +51,29 @@ public class CommentRestController {
         return commentService.findAllCommentForStamp(stamp_id);
     }
 
+    /**
+     * Note: This post mapping assumes that the dto of the photo and images are sent in the correct order.
+     */
     @PostMapping("/stamps/{stamp_id}/comments")
     public Comment addStampComment(@RequestPart CommentCreationDTO dto,
                                    @PathVariable Integer stamp_id,
-                                   @RequestPart MultipartFile image) {
+                                   @RequestPart MultipartFile[] images) {
         // we return comment first so that it can return a valid id
         Comment comment =  commentService.save(dto, stamp_id);
-        dto.getPhotos().get(0).setComment_id(comment.getId());
-        Photo photo = photoService.save(dto.getPhotos().get(0), image);
+
+        // Create a Map that maps all photo metadata that gets passed in as key and every MultipartFile as key
+        Map<PhotoDTO, MultipartFile> photoMap = IntStream.range(0, dto.getPhotos().size()).boxed()
+                .collect(Collectors.toMap(i -> dto.getPhotos().get(i), i -> images[i]));
+
+        // TODO: At this point we don't even need to pass in PhotoDTO it would ligten the payload, and we can
+        //      initialize it here.
+        for (PhotoDTO photoDTO : photoMap.keySet()) {
+            photoDTO.setComment_id(comment.getId());
+        }
         List<Photo> photoList = new ArrayList<>();
-        photoList.add(photo);
+        photoMap.forEach((k,v) -> {
+            photoList.add(photoService.save(k, v));
+        });
         comment.setPhotos(photoList);
         return comment;
     }
@@ -66,6 +83,9 @@ public class CommentRestController {
         return commentService.save(comment, stamp_id);
     }
 
+    /**
+     * This method should delete the comment and all its associated photos.
+     */
     @DeleteMapping("/comments/{id}")
     public void delete(@PathVariable Integer id) {
         if (id < 0) {

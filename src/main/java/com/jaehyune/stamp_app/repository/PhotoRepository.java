@@ -9,7 +9,7 @@ import java.util.List;
  * We use EntityManager instead of JPA Repository here for a finer control of saving to disk.
  */
 public interface PhotoRepository {
-    Photo findById(Integer id);
+    Photo findById(String id);
 
     List<Photo> findAll();
 

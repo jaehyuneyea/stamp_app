@@ -24,7 +24,7 @@ public class PhotoRepositoryImpl implements PhotoRepository {
     }
 
     @Override
-    public Photo findById(Integer id) {
+    public Photo findById(String id) {
         return entityManager.find(Photo.class, id);
     }
 

@@ -9,7 +9,7 @@ import java.util.List;
 public interface PhotoService extends ConverterMediator<Photo, PhotoDTO> {
     Photo save(PhotoDTO dto, MultipartFile image);
 
-    PhotoDTO findById(Integer id);
+    PhotoDTO findById(String id);
 
     List<PhotoDTO> findAll();
 

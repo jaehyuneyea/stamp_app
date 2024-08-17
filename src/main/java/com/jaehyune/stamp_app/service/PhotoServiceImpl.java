@@ -34,7 +34,7 @@ public class PhotoServiceImpl implements PhotoService {
     }
 
     @Override
-    public PhotoDTO findById(Integer id) {
+    public PhotoDTO findById(String id) {
         return toDto(photoRepository.findById(id));
     }
 

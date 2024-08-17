@@ -27,7 +27,7 @@ public class PhotoRestController {
     }
 
     @GetMapping("/photos/{photo_id}")
-    public PhotoDTO find(@PathVariable Integer photo_id) {
+    public PhotoDTO find(@PathVariable String photo_id) {
         return photoService.findById(photo_id);
     }
 
