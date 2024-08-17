@@ -10,9 +10,9 @@ import java.util.Date;
 public class Photo {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // TODO: possibly change to GUID later
+//    @GeneratedValue(strategy = GenerationType.IDENTITY) // TODO: possibly change to GUID later
     @Column(name = "id")
-    private Integer id;
+    private String id;
 
     @OneToOne
     @JoinColumn(name = "stamp_id") // owning side (one with foreign key) gets the @JoinColumn
@@ -46,11 +46,11 @@ public class Photo {
         this.dateCreated = new Date();
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

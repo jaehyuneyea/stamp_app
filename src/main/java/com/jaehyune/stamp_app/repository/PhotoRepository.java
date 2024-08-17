@@ -1,6 +1,7 @@
 package com.jaehyune.stamp_app.repository;
 
 import com.jaehyune.stamp_app.entity.Photo;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ public interface PhotoRepository {
 
     List<Photo> findAll();
 
-    Photo save(Photo photo);
+    Photo save(Photo photo, MultipartFile image);
 
     void delete(Integer id);
 }

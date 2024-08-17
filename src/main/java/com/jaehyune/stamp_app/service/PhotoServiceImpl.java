@@ -9,6 +9,7 @@ import com.jaehyune.stamp_app.repository.PhotoRepository;
 import com.jaehyune.stamp_app.repository.StampRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,8 +29,8 @@ public class PhotoServiceImpl implements PhotoService {
 
     @Override
     @Transactional
-    public Photo save(PhotoDTO dto) {
-        return photoRepository.save(toEntity(dto));
+    public Photo save(PhotoDTO dto, MultipartFile image) {
+        return photoRepository.save(toEntity(dto), image);
     }
 
     @Override
@@ -85,6 +86,7 @@ public class PhotoServiceImpl implements PhotoService {
         } else {
             dto.setStamp_id(null);
         }
+        dto.setFilePath(photo.getFilePath());
         return dto;
     }
 }

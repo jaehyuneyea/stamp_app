@@ -36,7 +36,7 @@ CREATE TABLE comments (
 );
 
 CREATE TABLE photos (
-   id SERIAL PRIMARY KEY,
+   id text PRIMARY KEY,
    stamp_id INT DEFAULT NULL,
    user_id INT DEFAULT NULL,
    comment_id INT DEFAULT NULL,

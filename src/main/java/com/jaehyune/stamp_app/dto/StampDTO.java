@@ -5,7 +5,7 @@ import java.util.List;
 public class StampDTO {
     // TODO: You left off here, return photos in stampDTO then test and handle disk storage
     // TODO: and also test passing in photo without id; I think we need to pass in multipartFile from the controller.
-    // TODO: Shouldn't the Photo have a File field? And is it ok for it to pass in a DTO instead of FileStream?
+    // TODO: Handle multipart form data and the photoDTO separately
 
     private Integer id;
 

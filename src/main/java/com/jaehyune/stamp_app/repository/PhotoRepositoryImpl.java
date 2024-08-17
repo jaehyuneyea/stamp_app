@@ -3,10 +3,16 @@ package com.jaehyune.stamp_app.repository;
 import com.jaehyune.stamp_app.entity.Photo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.UUID;
 
 @Repository
 public class PhotoRepositoryImpl implements PhotoRepository {
@@ -30,9 +36,22 @@ public class PhotoRepositoryImpl implements PhotoRepository {
     }
 
     @Override
-    public Photo save(Photo photo) {
+    public Photo save(Photo photo, MultipartFile image) {
+        String filepath = "C:/Users/Alpha PC/Desktop/repos/stamp-app/images";
+        photo.setId(UUID.randomUUID().toString());
+        try {
+            Path path = Paths.get(filepath);
+            if (!Files.exists(path)) {
+                Files.createDirectory(path); // create if not already exists
+            }
+            InputStream imageData = image.getInputStream();
+            Path imagePath = path.resolve(photo.getId() + ".jpg");
+            photo.setFilePath(imagePath.toString());
+            Files.copy(imageData, imagePath);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         return entityManager.merge(photo);
-        // TODO: We should perform disk operations here.
     }
 
     @Override
