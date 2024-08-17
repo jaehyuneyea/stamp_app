@@ -5,7 +5,6 @@ import java.util.List;
 
 public class CommentCreationDTO {
     // for creation it should be the user id instead
-    private Integer id;
     private String description;
     private Integer parent_id;
     private Integer user_id;

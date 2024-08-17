@@ -37,7 +37,7 @@ public class CommentServiceImpl implements CommentService {
         if (stamp_id == null || stamp_id < 0) {
             throw new RuntimeException("Invalid ID: " + stamp_id);
         }
-        Comment comment = toEntity(dto);
+        Comment comment = toEntity(dto); // fails here
         Optional<Stamp> temp = stampRepository.findById(stamp_id);
 
         if (temp.isPresent()) {
