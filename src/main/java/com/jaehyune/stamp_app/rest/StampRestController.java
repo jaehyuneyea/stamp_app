@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class StampRestController {
@@ -21,30 +22,20 @@ public class StampRestController {
         this.photoService = photoService;
     }
 
-    @PostMapping("/stamps")
-    public Stamp addStamp(@RequestPart StampDTO dto) {
-        if (dto.getId() != null) {
-            throw new RuntimeException("ID field should not exist for creating stamps");
-        }
-        dto.setId(0); // because stamp adds when id = 0 and sets id automatically in db
-        return stampService.save(dto);
-
-    }
-
     // add stamp
     @PostMapping("/stamps")
     public Stamp addStamp(@RequestPart StampDTO dto,
-                          @RequestPart MultipartFile image) {
+                          @RequestPart Optional<MultipartFile> image) {
         if (dto.getId() != null) {
             throw new RuntimeException("ID field should not exist for creating stamps");
         }
         dto.setId(0); // because stamp adds when id = 0 and sets id automatically in db
         Stamp stamp = stampService.save(dto);
-        if (image != null) {
+        if (image.isPresent()) {
             PhotoDTO photoDTO = new PhotoDTO();
             photoDTO.setStamp_id(stamp.getId());
 
-            stamp.setPhoto(photoService.save(photoDTO, image));
+            stamp.setPhoto(photoService.save(photoDTO, image.get()));
         }
         return stamp;
     }
