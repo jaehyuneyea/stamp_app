@@ -21,6 +21,16 @@ public class StampRestController {
         this.photoService = photoService;
     }
 
+    @PostMapping("/stamps")
+    public Stamp addStamp(@RequestPart StampDTO dto) {
+        if (dto.getId() != null) {
+            throw new RuntimeException("ID field should not exist for creating stamps");
+        }
+        dto.setId(0); // because stamp adds when id = 0 and sets id automatically in db
+        return stampService.save(dto);
+
+    }
+
     // add stamp
     @PostMapping("/stamps")
     public Stamp addStamp(@RequestPart StampDTO dto,
@@ -30,11 +40,12 @@ public class StampRestController {
         }
         dto.setId(0); // because stamp adds when id = 0 and sets id automatically in db
         Stamp stamp = stampService.save(dto);
-        PhotoDTO photoDTO = new PhotoDTO();
-        photoDTO.setStamp_id(stamp.getId());
+        if (image != null) {
+            PhotoDTO photoDTO = new PhotoDTO();
+            photoDTO.setStamp_id(stamp.getId());
 
-        stamp.setPhoto(photoService.save(photoDTO, image));
-
+            stamp.setPhoto(photoService.save(photoDTO, image));
+        }
         return stamp;
     }
     // update stamp
