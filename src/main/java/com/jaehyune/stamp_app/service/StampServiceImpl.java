@@ -59,14 +59,16 @@ public class StampServiceImpl implements StampService {
         stamp.setRating(dto.getRating());
         stamp.setRailway(dto.getRailway());
 
-        List<CommentReadDTO> commentDTOS = dto.getComments();
-        stamp.setComments(commentDTOS.stream().map(commentDTO -> commentConverter.toEntity(commentDTO)).toList());
-
-        PhotoDTO photoDTO = dto.getPhoto();
-        if (photoDTO != null) {
-            stamp.setPhoto(photoConverter.toEntity(photoDTO));
-
+        if (dto.getComments() != null) {
+            List<CommentReadDTO> commentDTOS = dto.getComments();
+            stamp.setComments(commentDTOS.stream().map(commentDTO -> commentConverter.toEntity(commentDTO)).toList());
         }
+
+//        PhotoDTO photoDTO = dto.getPhoto();
+//        if (photoDTO != null) {
+//            stamp.setPhoto(photoConverter.toEntity(photoDTO)); // TODO: Maybe set id in to entity
+//
+//        }
         return stamp;
     }
 

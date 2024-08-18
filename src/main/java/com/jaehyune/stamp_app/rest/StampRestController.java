@@ -1,9 +1,12 @@
 package com.jaehyune.stamp_app.rest;
 
+import com.jaehyune.stamp_app.dto.PhotoDTO;
 import com.jaehyune.stamp_app.dto.StampDTO;
 import com.jaehyune.stamp_app.entity.Stamp;
+import com.jaehyune.stamp_app.service.PhotoService;
 import com.jaehyune.stamp_app.service.StampService;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -11,20 +14,35 @@ import java.util.List;
 public class StampRestController {
 
     private StampService stampService;
+    private PhotoService photoService;
 
-    public StampRestController(StampService stampService) {
+    public StampRestController(StampService stampService, PhotoService photoService) {
         this.stampService = stampService;
+        this.photoService = photoService;
     }
 
     // add stamp
     @PostMapping("/stamps")
-    public Stamp addStamp(@RequestBody StampDTO dto) {
+    public Stamp addStamp(@RequestPart StampDTO dto,
+                          @RequestPart MultipartFile image) {
+        if (dto.getId() != null) {
+            throw new RuntimeException("ID field should not exist for creating stamps");
+        }
         dto.setId(0); // because stamp adds when id = 0 and sets id automatically in db
-        return stampService.save(dto);
+        Stamp stamp = stampService.save(dto);
+        PhotoDTO photoDTO = new PhotoDTO();
+        photoDTO.setStamp_id(stamp.getId());
+
+        stamp.setPhoto(photoService.save(photoDTO, image));
+
+        return stamp;
     }
     // update stamp
     @PutMapping("/stamps")
     public Stamp updateStamp(@RequestBody StampDTO dto) {
+        if (dto.getId() == null) {
+            throw new RuntimeException("ID field should not be null for editting stamps");
+        }
         return stampService.save(dto);
     }
 

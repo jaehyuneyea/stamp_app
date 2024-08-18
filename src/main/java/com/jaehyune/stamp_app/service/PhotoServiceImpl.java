@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class PhotoServiceImpl implements PhotoService {
@@ -68,6 +69,7 @@ public class PhotoServiceImpl implements PhotoService {
             } else {
                 throw new RuntimeException("Did not find Stamp with ID: " + dto.getStamp_id());
             }
+
         }
         return photo;
     }

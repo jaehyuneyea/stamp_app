@@ -6,7 +6,7 @@ package com.jaehyune.stamp_app.dto;
  */
 public class PhotoDTO {
     // TODO: These are always passed in as null, do we even need to pass this in..? Perhaps create association
-    //       in service layer
+    //          in service layer
     private String id;
 
     private Integer stamp_id;
