@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -57,27 +58,29 @@ public class CommentRestController {
     @PostMapping("/stamps/{stamp_id}/comments")
     public Comment addStampComment(@RequestPart CommentCreationDTO dto,
                                    @PathVariable Integer stamp_id,
-                                   @RequestPart MultipartFile[] images) {
+                                   @RequestPart Optional<MultipartFile[]> images) {
         // we return comment first so that it can return a valid id
         Comment comment =  commentService.save(dto, stamp_id);
+        if (images.isPresent()) {
+            // Create a Map that maps all photo metadata that gets passed in as key and every MultipartFile as key
+            Map<PhotoDTO, MultipartFile> photoMap = IntStream.range(0, dto.getPhotos().size()).boxed()
+                    .collect(Collectors.toMap(i -> dto.getPhotos().get(i), i -> images.get()[i]));
 
-        // Create a Map that maps all photo metadata that gets passed in as key and every MultipartFile as key
-        Map<PhotoDTO, MultipartFile> photoMap = IntStream.range(0, dto.getPhotos().size()).boxed()
-                .collect(Collectors.toMap(i -> dto.getPhotos().get(i), i -> images[i]));
-
-        // TODO: At this point we don't even need to pass in PhotoDTO it would ligten the payload, and we can
-        //      initialize it here.
-        for (PhotoDTO photoDTO : photoMap.keySet()) {
-            photoDTO.setComment_id(comment.getId());
+            // TODO: At this point we don't even need to pass in PhotoDTO it would ligten the payload, and we can
+            //      initialize it here.
+            for (PhotoDTO photoDTO : photoMap.keySet()) {
+                photoDTO.setComment_id(comment.getId());
+            }
+            List<Photo> photoList = new ArrayList<>();
+            photoMap.forEach((k,v) -> {
+                photoList.add(photoService.save(k, v));
+            });
+            comment.setPhotos(photoList);
         }
-        List<Photo> photoList = new ArrayList<>();
-        photoMap.forEach((k,v) -> {
-            photoList.add(photoService.save(k, v));
-        });
-        comment.setPhotos(photoList);
         return comment;
     }
 
+    // TODO: Handle images for editting comments as well
     @PutMapping("/stamps/{stamp_id}/comments")
     public Comment editComment(@RequestBody CommentCreationDTO comment, @PathVariable Integer stamp_id) {
         return commentService.save(comment, stamp_id);
@@ -93,9 +96,11 @@ public class CommentRestController {
         }
         CommentReadDTO comment = commentService.findById(id);
         List<PhotoDTO> photoDTOS = comment.getPhotos();
-        for (PhotoDTO photoDTO: photoDTOS) {
-            String photoId = photoDTO.getId();
-            photoService.delete(photoId);
+        if (!photoDTOS.isEmpty()) {
+            for (PhotoDTO photoDTO: photoDTOS) {
+                String photoId = photoDTO.getId();
+                photoService.delete(photoId);
+            }
         }
         commentService.delete(id);
     }

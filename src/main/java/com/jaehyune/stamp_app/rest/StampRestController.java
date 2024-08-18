@@ -69,6 +69,11 @@ public class StampRestController {
         if (id < 0) {
             throw new IdNotFoundException("Invalid ID: " + id);
         }
+        StampDTO stampDTO = stampService.findById(id);
+        PhotoDTO photoDTO = stampDTO.getPhoto();
+        if (photoDTO != null) {
+            photoService.delete(photoDTO.getId());
+        }
         stampService.delete(id);
     }
 }
