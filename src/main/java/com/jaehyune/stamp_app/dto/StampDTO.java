@@ -14,15 +14,18 @@ public class StampDTO {
 
     private List<CommentReadDTO> comments;
 
+    private PhotoDTO photo;
+
     public StampDTO() {
 
     }
 
-    public StampDTO(Integer id, String description, float rating, String railway) {
+    public StampDTO(Integer id, String description, float rating, String railway, PhotoDTO photo) {
         this.id = id;
         this.description = description;
         this.rating = rating;
         this.railway = railway;
+        this.photo = photo;
     }
 
     public Integer getId() {
@@ -63,5 +66,13 @@ public class StampDTO {
 
     public void setComments(List<CommentReadDTO> comments) {
         this.comments = comments;
+    }
+
+    public PhotoDTO getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(PhotoDTO photo) {
+        this.photo = photo;
     }
 }

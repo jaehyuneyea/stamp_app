@@ -1,6 +1,7 @@
 package com.jaehyune.stamp_app.dto;
 
 import java.util.Date;
+import java.util.List;
 
 public class CommentReadDTO {
     // contains the field you want to expose with the getters and setters and constructors
@@ -9,14 +10,16 @@ public class CommentReadDTO {
     private String description;
     private Date date_created;
     private Integer parent_id;
-    private String username; // for read this can just be a string for username
+    private String username;
+    private List<PhotoDTO> photos;
 
-    public CommentReadDTO(Integer id, String description, Date date_created, Integer parent_id, String username) {
+    public CommentReadDTO(Integer id, String description, Date date_created, Integer parent_id, String username, List<PhotoDTO> photos) {
         this.id = id;
         this.description = description;
         this.username = username;
         this.date_created = date_created;
         this.parent_id = parent_id;
+        this.photos = photos;
     }
 
     public Date getDate_created() {
@@ -57,5 +60,13 @@ public class CommentReadDTO {
 
     public void setUsername(String user) {
         this.username = user;
+    }
+
+    public List<PhotoDTO> getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(List<PhotoDTO> photos) {
+        this.photos = photos;
     }
 }
