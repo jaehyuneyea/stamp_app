@@ -39,7 +39,8 @@ public class StampRestController {
         }
         return stamp;
     }
-    // update stamp
+    // TODO: Handle updates with images
+    // TODO: You left off here. Handle exceptions by creating a ExceptionHandler and error response.
     @PutMapping("/stamps")
     public Stamp updateStamp(@RequestBody StampDTO dto) {
         if (dto.getId() == null) {
