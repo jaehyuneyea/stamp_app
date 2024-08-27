@@ -37,7 +37,7 @@ public class CommentServiceImpl implements CommentService {
         if (stamp_id == null || stamp_id < 0) {
             throw new RuntimeException("Invalid ID: " + stamp_id);
         }
-        Comment comment = toEntity(dto); // fails here
+        Comment comment = toEntity(dto);
         Optional<Stamp> temp = stampRepository.findById(stamp_id);
 
         if (temp.isPresent()) {
@@ -99,8 +99,6 @@ public class CommentServiceImpl implements CommentService {
         } else {
             throw new RuntimeException("Did not find User with ID: " + user_id);
         }
-        List<PhotoDTO> photoDTOS = dto.getPhotos();
-        comment.setPhotos(photoDTOS.stream().map(photoDTO -> photoConverter.toEntity(photoDTO)).toList());
         return comment;
     }
 

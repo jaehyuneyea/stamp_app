@@ -4,11 +4,9 @@ import java.util.Date;
 import java.util.List;
 
 public class CommentCreationDTO {
-    // for creation it should be the user id instead
     private String description;
     private Integer parent_id;
     private Integer user_id;
-    private List<PhotoDTO> photos;
 
     public CommentCreationDTO() {
 
@@ -18,7 +16,6 @@ public class CommentCreationDTO {
         this.description = description;
         this.parent_id = parent_id;
         this.user_id = user_id;
-        this.photos = photos;
     }
 
     public String getDescription() {
@@ -45,11 +42,4 @@ public class CommentCreationDTO {
         this.user_id = user_id;
     }
 
-    public List<PhotoDTO> getPhotos() {
-        return photos;
-    }
-
-    public void setPhotos(List<PhotoDTO> photos) {
-        this.photos = photos;
-    }
 }
