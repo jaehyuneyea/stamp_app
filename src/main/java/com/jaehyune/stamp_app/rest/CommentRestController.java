@@ -62,15 +62,19 @@ public class CommentRestController {
         // we return comment first so that it can return a valid id
         Comment comment =  commentService.save(dto, stamp_id);
         if (images.isPresent()) {
-            // Create a Map that maps all photo metadata that gets passed in as key and every MultipartFile as key
-            Map<PhotoDTO, MultipartFile> photoMap = IntStream.range(0, dto.getPhotos().size()).boxed()
-                    .collect(Collectors.toMap(i -> dto.getPhotos().get(i), i -> images.get()[i]));
 
-            // TODO: At this point we don't even need to pass in PhotoDTO it would ligten the payload, and we can
-            //      initialize it here.
-            for (PhotoDTO photoDTO : photoMap.keySet()) {
-                photoDTO.setComment_id(comment.getId());
+            // Populate a list of PhotoDTOs with corresponding comment ID with length of images passed in
+            List<PhotoDTO> dtos = new ArrayList<>();
+            for (int i = 0; i <  images.get().length; i++) {
+                PhotoDTO tempDTO = new PhotoDTO();
+                tempDTO.setStamp_id(null);
+                tempDTO.setComment_id(comment.getId());
+                dtos.add(tempDTO);
             }
+            // Create a Map that maps all photo metadata to be created that gets passed in as key and every MultipartFile as key
+            Map<PhotoDTO, MultipartFile> photoMap = IntStream.range(0, dtos.size()).boxed()
+                    .collect(Collectors.toMap(i -> dtos.get(i), i -> images.get()[i]));
+
             List<Photo> photoList = new ArrayList<>();
             photoMap.forEach((k,v) -> {
                 photoList.add(photoService.save(k, v));
