@@ -1,4 +1,4 @@
-package com.jaehyune.stamp_app.rest;
+package com.jaehyune.stamp_app.rest.error;
 
 public class IdNotFoundException extends RuntimeException {
 

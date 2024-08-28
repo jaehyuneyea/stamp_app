@@ -1,9 +1,8 @@
-package com.jaehyune.stamp_app.service;
+package com.jaehyune.stamp_app.service.impl;
 
 import com.jaehyune.stamp_app.dto.CommentCreationDTO;
 import com.jaehyune.stamp_app.dto.CommentReadDTO;
 import com.jaehyune.stamp_app.dto.PhotoDTO;
-import com.jaehyune.stamp_app.dto.UserDTO;
 import com.jaehyune.stamp_app.entity.Comment;
 import com.jaehyune.stamp_app.entity.Photo;
 import com.jaehyune.stamp_app.entity.Stamp;
@@ -11,6 +10,8 @@ import com.jaehyune.stamp_app.entity.User;
 import com.jaehyune.stamp_app.repository.CommentRepository;
 import com.jaehyune.stamp_app.repository.StampRepository;
 import com.jaehyune.stamp_app.repository.UserRepository;
+import com.jaehyune.stamp_app.service.CommentService;
+import com.jaehyune.stamp_app.service.ConverterMediator;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;

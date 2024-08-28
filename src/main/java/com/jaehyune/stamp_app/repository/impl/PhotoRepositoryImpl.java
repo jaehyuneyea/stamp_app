@@ -1,6 +1,7 @@
-package com.jaehyune.stamp_app.repository;
+package com.jaehyune.stamp_app.repository.impl;
 
 import com.jaehyune.stamp_app.entity.Photo;
+import com.jaehyune.stamp_app.repository.PhotoRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;

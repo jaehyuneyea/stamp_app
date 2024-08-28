@@ -5,9 +5,9 @@ import com.jaehyune.stamp_app.dto.CommentReadDTO;
 import com.jaehyune.stamp_app.dto.PhotoDTO;
 import com.jaehyune.stamp_app.entity.Comment;
 import com.jaehyune.stamp_app.entity.Photo;
+import com.jaehyune.stamp_app.rest.error.IdNotFoundException;
 import com.jaehyune.stamp_app.service.CommentService;
 import com.jaehyune.stamp_app.service.PhotoService;
-import jakarta.websocket.server.PathParam;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 

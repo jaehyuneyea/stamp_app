@@ -3,6 +3,7 @@ package com.jaehyune.stamp_app.rest;
 import com.jaehyune.stamp_app.dto.PhotoDTO;
 import com.jaehyune.stamp_app.dto.StampDTO;
 import com.jaehyune.stamp_app.entity.Stamp;
+import com.jaehyune.stamp_app.rest.error.IdNotFoundException;
 import com.jaehyune.stamp_app.service.PhotoService;
 import com.jaehyune.stamp_app.service.StampService;
 import org.springframework.web.bind.annotation.*;
