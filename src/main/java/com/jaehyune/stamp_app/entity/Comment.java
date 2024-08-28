@@ -8,6 +8,15 @@ import org.springframework.data.annotation.CreatedDate;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * This class represents the Comment entity. JPA persists the entity into the database.
+ * <p>
+ * Comment has a many-to-one relationship with Stamp, owning the many side.
+ * Comment has a many-to-one relationship with User, owning the many side.
+ * Comment has a one-to-many relationship with Photo, owning the one side.
+ * Meaning Stamps can have many comments and Users can own many comments, and Comment can own many Photos.
+ *
+ */
 @Entity
 @Table(name="comments")
 public class Comment {
@@ -45,6 +54,15 @@ public class Comment {
 
     }
 
+    /**
+     *
+     * @param stamp_id Object of the stamp. Required as an object for Entity relationships.
+     * @param user Object of the User. Required as an object for entity relationships.
+     * @param parent_id id of the parent if it exists. Null if else.
+     * @param description contents of the comment.
+     * @param date_created date the comment was created. Uses pre-persist.
+     * @param photos photos associated with the comments. Null if none exist.
+     */
     public Comment(Stamp stamp_id, User user, Integer parent_id, String description, Date date_created, List<Photo> photos) {
         this.stamp_id = stamp_id;
         this.user_id = user;

@@ -3,6 +3,10 @@ package com.jaehyune.stamp_app.dto;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * This class represents a DTO used for retrieving a Comment entity from the server side.
+ * It is needed by CommentRestController and CommentService when using GET requests to retrieve specific Comments.
+ */
 public class CommentReadDTO {
     // contains the field you want to expose with the getters and setters and constructors
 
@@ -13,6 +17,15 @@ public class CommentReadDTO {
     private String username;
     private List<PhotoDTO> photos;
 
+    /**
+     *
+     * @param id the id of the comment
+     * @param description the contents of the comment
+     * @param date_created the date the comment was created. This is a Date object.
+     * @param parent_id the id of the parent comment if it exists. If not, it is null.
+     * @param username the name of the user that posted the comment.
+     * @param photos the metadata of the photos attached to the comment if it exists. If not, it is null.
+     */
     public CommentReadDTO(Integer id, String description, Date date_created, Integer parent_id, String username, List<PhotoDTO> photos) {
         this.id = id;
         this.description = description;

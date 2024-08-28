@@ -11,6 +11,13 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The Rest Controller for Stamps. This handles creating, updating, deleting and reading stamp entities.
+ * It delegates the work to StampService, and any photo persistence to PhotoService.
+ *
+ * This is generally reserved for testing / admin use as well, since all stamp data will be obtained from
+ * an external source.
+ */
 @RestController
 public class StampRestController {
 

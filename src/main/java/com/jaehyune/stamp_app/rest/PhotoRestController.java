@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 /**
- * Reserved for testing. Likely the client should never need to upload a photo on its own without any association
+ * This Rest controller is reserved for testing. Likely the client should never need to upload a photo on its own without any association
  * to comment or stamp.
  */
 @RestController

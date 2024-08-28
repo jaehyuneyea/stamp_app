@@ -4,7 +4,13 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.List;
-
+/**
+ * This class represents the Stamp entity. JPA persists the entity into the database.
+ * <p>
+ * Stamp has a one-to-many relationship with Comment, owning the one side.
+ * Stamp has a one-to-one relationship with Photo, owning the one side.
+ * Meaning Stamps can have one Photo and Stamp can own many Comments.
+ */
 @Entity
 @Table(name="stamps")
 public class Stamp {
@@ -35,6 +41,13 @@ public class Stamp {
 
     }
 
+    /**
+     *
+     * @param description description of the stamp
+     * @param rating rating of the stamp in float
+     * @param railway the collection of railway that the stamp is in
+     * @param photo the photo of the correlated stamp
+     */
     public Stamp(String description, float rating, String railway, Photo photo) {
         this.description = description;
         this.rating = rating;

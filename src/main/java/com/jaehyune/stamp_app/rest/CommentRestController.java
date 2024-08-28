@@ -18,6 +18,16 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+/**
+ * The Rest Controller for Comments. This handles creating, updating, deleting and reading comments.
+ * It delegates the work to CommentService, and any photo persistence to PhotoService.
+ *
+ * Comments are associated to a Stamp, therefore the proper HTTP requests for it is
+ * GET /stamps/{stamp_id}/comments
+ *
+ * unless it is for deleting the stamp.
+ */
+
 @RestController
 public class CommentRestController {
 
@@ -54,6 +64,11 @@ public class CommentRestController {
 
     /**
      * Note: This post mapping assumes that the dto of the photo and images are sent in the correct order.
+     * @param dto the CommentCreationDTO which is passed in the body of the JSON from the client side.
+     * @param stamp_id id of the stamp to which the comment will be created; exists in the URL path.
+     * @param images any image files that are being passed in with the comment. It is marked as optional because the user
+     *               can choose not to pass in any images to their comment.
+     * @return the completed Comment object with any photo metadata associated to the comment
      */
     @PostMapping("/stamps/{stamp_id}/comments")
     public Comment addStampComment(@RequestPart CommentCreationDTO dto,
