@@ -9,6 +9,7 @@ import com.jaehyune.stamp_app.entity.Stamp;
 import com.jaehyune.stamp_app.repository.StampRepository;
 import com.jaehyune.stamp_app.service.ConverterMediator;
 import com.jaehyune.stamp_app.service.StampService;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,6 +33,7 @@ public class StampServiceImpl implements StampService {
         return stampRepository.save(stamp);
     }
 
+    @Transactional
     @Override
     public StampDTO findById(Integer id) {
         Optional<Stamp> tempStamp = stampRepository.findById(id);
@@ -42,6 +44,7 @@ public class StampServiceImpl implements StampService {
         }
     }
 
+    @Transactional
     @Override
     public List<StampDTO> findAll() {
         List<Stamp> stamps = stampRepository.findAll();
