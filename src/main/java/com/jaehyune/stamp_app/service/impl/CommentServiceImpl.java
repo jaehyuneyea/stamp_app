@@ -12,6 +12,7 @@ import com.jaehyune.stamp_app.repository.StampRepository;
 import com.jaehyune.stamp_app.repository.UserRepository;
 import com.jaehyune.stamp_app.service.CommentService;
 import com.jaehyune.stamp_app.service.ConverterMediator;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -39,6 +40,10 @@ public class CommentServiceImpl implements CommentService {
             throw new RuntimeException("Invalid ID: " + stamp_id);
         }
         Comment comment = toEntity(dto);
+        if (dto.getId() != 0) {
+            CommentReadDTO commentReadDTO = findById(dto.getId());
+            comment.setDate_created(commentReadDTO.getDate_created());
+        }
         Optional<Stamp> temp = stampRepository.findById(stamp_id);
 
         if (temp.isPresent()) {
@@ -49,6 +54,7 @@ public class CommentServiceImpl implements CommentService {
         return commentRepository.save(comment);
     }
 
+    @Transactional
     @Override
     public CommentReadDTO findById(Integer id) {
         Optional<Comment> comment = commentRepository.findById(id);
@@ -60,12 +66,14 @@ public class CommentServiceImpl implements CommentService {
         }
     }
 
+    @Transactional
     @Override
     public List<CommentReadDTO> findAll() {
         List<Comment> comments = commentRepository.findAll();
         return comments.stream().map(this::toDto).toList();
     }
 
+    @Transactional
     @Override
     public List<CommentReadDTO> findAllCommentForStamp(Integer stamp_id) {
         Optional<Stamp> temp = stampRepository.findById(stamp_id);
@@ -86,6 +94,9 @@ public class CommentServiceImpl implements CommentService {
 
     public Comment toEntity(CommentCreationDTO dto) {
         Comment comment = new Comment();
+        if (dto.getId() != null) {
+            comment.setId(dto.getId());
+        }
         String description = dto.getDescription();
         Integer parent_id = dto.getParent_id();
         Integer user_id = dto.getUser_id();

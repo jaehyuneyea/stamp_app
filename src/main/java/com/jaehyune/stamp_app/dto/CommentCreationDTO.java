@@ -11,12 +11,14 @@ import java.util.List;
  * When calling a POST HTTP request, the JSON body should be formatted as such:
  * <p>
  * {
+ *     "id": null,
  *     "description": "pretty good stamp",
  *     "parent_id": null,
  *     "user_id": 1
  * }
  */
 public class CommentCreationDTO {
+    private Integer id;
     private String description;
     private Integer parent_id;
     private Integer user_id;
@@ -35,6 +37,14 @@ public class CommentCreationDTO {
         this.description = description;
         this.parent_id = parent_id;
         this.user_id = user_id;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getDescription() {
