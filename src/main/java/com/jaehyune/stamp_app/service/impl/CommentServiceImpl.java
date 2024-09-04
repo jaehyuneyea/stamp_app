@@ -34,13 +34,15 @@ public class CommentServiceImpl implements CommentService {
         this.photoConverter = photoConverter;
     }
 
+    @Transactional
     @Override
     public Comment save(CommentCreationDTO dto, Integer stamp_id) {
         if (stamp_id == null || stamp_id < 0) {
             throw new RuntimeException("Invalid ID: " + stamp_id);
         }
         Comment comment = toEntity(dto);
-        if (dto.getId() != 0) {
+        // if the Comment is being updated, prevent the date_created from updating
+        if (dto.getId() != null) {
             CommentReadDTO commentReadDTO = findById(dto.getId());
             comment.setDate_created(commentReadDTO.getDate_created());
         }

@@ -75,6 +75,7 @@ public class CommentRestController {
                                    @PathVariable Integer stamp_id,
                                    @RequestPart Optional<MultipartFile[]> images) {
         // we return comment first so that it can return a valid id
+        dto.setId(0);
         Comment comment =  commentService.save(dto, stamp_id);
         if (images.isPresent()) {
 

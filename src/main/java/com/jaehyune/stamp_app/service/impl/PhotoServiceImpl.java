@@ -35,11 +35,13 @@ public class PhotoServiceImpl implements PhotoService {
     }
 
     @Override
+    @Transactional
     public PhotoDTO findById(String id) {
         return toDto(photoRepository.findById(id));
     }
 
     @Override
+    @Transactional
     public List<PhotoDTO> findAll() {
         List<Photo> photos = photoRepository.findAll();
         return photos.stream().map(this::toDto).toList();
