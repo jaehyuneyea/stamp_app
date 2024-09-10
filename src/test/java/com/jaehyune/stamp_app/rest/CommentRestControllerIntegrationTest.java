@@ -86,7 +86,7 @@ class CommentRestControllerIntegrationTest {
         Assertions.assertEquals("test comment", foundComment.getDescription());
         Assertions.assertEquals(1, foundComment.getId());
         assertNull(foundComment.getParentId());
-        Assertions.assertEquals(new ArrayList<>(), foundComment.getPhotos());
+        Assertions.assertEquals(new ArrayList<>(), foundComment.getPhotoDTOs());
         Assertions.assertEquals(comment.getDateCreated(), foundComment.getDateCreated());
 
     }
@@ -103,7 +103,7 @@ class CommentRestControllerIntegrationTest {
         Assertions.assertEquals("test comment", commentReadDTO.getDescription());
         Assertions.assertEquals(1, commentReadDTO.getId());
         assertNull(commentReadDTO.getParentId());
-        Assertions.assertEquals(new ArrayList<>(), commentReadDTO.getPhotos());
+        Assertions.assertEquals(new ArrayList<>(), commentReadDTO.getPhotoDTOs());
         Assertions.assertEquals(comment.getDateCreated(), commentReadDTO.getDateCreated());
     }
 

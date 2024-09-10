@@ -115,7 +115,7 @@ public class CommentRestController {
             throw new IdNotFoundException("Invalid ID: " + id);
         }
         CommentReadDTO comment = commentService.findById(id);
-        List<PhotoDTO> photoDTOS = comment.getPhotos();
+        List<PhotoDTO> photoDTOS = comment.getPhotoDTOs();
         if (!photoDTOS.isEmpty()) {
             for (PhotoDTO photoDTO: photoDTOS) {
                 String photoId = photoDTO.getId();

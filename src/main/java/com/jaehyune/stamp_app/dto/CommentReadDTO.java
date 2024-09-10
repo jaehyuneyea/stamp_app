@@ -15,7 +15,7 @@ public class CommentReadDTO {
     private Date dateCreated;
     private Integer parentId;
     private String username;
-    private List<PhotoDTO> photos;
+    private List<PhotoDTO> photoDTOs;
 
     /**
      *
@@ -24,15 +24,15 @@ public class CommentReadDTO {
      * @param dateCreated the date the comment was created. This is a Date object.
      * @param parentId the id of the parent comment if it exists. If not, it is null.
      * @param username the name of the user that posted the comment.
-     * @param photos the metadata of the photos attached to the comment if it exists. If not, it is null.
+     * @param photoDTOs the metadata of the photos attached to the comment if it exists. If not, it is null.
      */
-    public CommentReadDTO(Integer id, String description, Date dateCreated, Integer parentId, String username, List<PhotoDTO> photos) {
+    public CommentReadDTO(Integer id, String description, Date dateCreated, Integer parentId, String username, List<PhotoDTO> photoDTOs) {
         this.id = id;
         this.description = description;
         this.username = username;
         this.dateCreated = dateCreated;
         this.parentId = parentId;
-        this.photos = photos;
+        this.photoDTOs = photoDTOs;
     }
 
     public Date getDateCreated() {
@@ -75,11 +75,11 @@ public class CommentReadDTO {
         this.username = user;
     }
 
-    public List<PhotoDTO> getPhotos() {
-        return photos;
+    public List<PhotoDTO> getPhotoDTOs() {
+        return photoDTOs;
     }
 
-    public void setPhotos(List<PhotoDTO> photos) {
-        this.photos = photos;
+    public void setPhotoDTOs(List<PhotoDTO> photoDTOs) {
+        this.photoDTOs = photoDTOs;
     }
 }
