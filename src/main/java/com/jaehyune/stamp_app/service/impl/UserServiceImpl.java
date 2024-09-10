@@ -1,9 +1,10 @@
-package com.jaehyune.stamp_app.service;
+package com.jaehyune.stamp_app.service.impl;
 
 import com.jaehyune.stamp_app.dto.UserCreationDTO;
 import com.jaehyune.stamp_app.dto.UserDTO;
 import com.jaehyune.stamp_app.entity.User;
 import com.jaehyune.stamp_app.repository.UserRepository;
+import com.jaehyune.stamp_app.service.UserService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

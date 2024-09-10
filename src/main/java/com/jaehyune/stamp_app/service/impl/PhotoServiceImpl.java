@@ -1,4 +1,4 @@
-package com.jaehyune.stamp_app.service;
+package com.jaehyune.stamp_app.service.impl;
 
 import com.jaehyune.stamp_app.dto.PhotoDTO;
 import com.jaehyune.stamp_app.entity.Comment;
@@ -7,13 +7,13 @@ import com.jaehyune.stamp_app.entity.Stamp;
 import com.jaehyune.stamp_app.repository.CommentRepository;
 import com.jaehyune.stamp_app.repository.PhotoRepository;
 import com.jaehyune.stamp_app.repository.StampRepository;
+import com.jaehyune.stamp_app.service.PhotoService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class PhotoServiceImpl implements PhotoService {
@@ -35,11 +35,13 @@ public class PhotoServiceImpl implements PhotoService {
     }
 
     @Override
+    @Transactional
     public PhotoDTO findById(String id) {
         return toDto(photoRepository.findById(id));
     }
 
     @Override
+    @Transactional
     public List<PhotoDTO> findAll() {
         List<Photo> photos = photoRepository.findAll();
         return photos.stream().map(this::toDto).toList();

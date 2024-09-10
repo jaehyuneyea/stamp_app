@@ -1,5 +1,9 @@
-package com.jaehyune.stamp_app.rest;
+package com.jaehyune.stamp_app.rest.error;
 
+/**
+ * An error response for when an id is not found.
+ * Builds the error message with its status code, error message and timestamp of the error occurred.
+ */
 public class IdNotFoundErrorResponse {
 
     private int status;
@@ -10,6 +14,12 @@ public class IdNotFoundErrorResponse {
 
     }
 
+    /**
+     *
+     * @param status status code of the error
+     * @param message message of the error
+     * @param timestamp the time when the error occurred
+     */
     public IdNotFoundErrorResponse(int status, String message, long timestamp) {
         this.status = status;
         this.message = message;

@@ -1,9 +1,8 @@
-package com.jaehyune.stamp_app.service;
+package com.jaehyune.stamp_app.service.impl;
 
 import com.jaehyune.stamp_app.dto.CommentCreationDTO;
 import com.jaehyune.stamp_app.dto.CommentReadDTO;
 import com.jaehyune.stamp_app.dto.PhotoDTO;
-import com.jaehyune.stamp_app.dto.UserDTO;
 import com.jaehyune.stamp_app.entity.Comment;
 import com.jaehyune.stamp_app.entity.Photo;
 import com.jaehyune.stamp_app.entity.Stamp;
@@ -11,6 +10,9 @@ import com.jaehyune.stamp_app.entity.User;
 import com.jaehyune.stamp_app.repository.CommentRepository;
 import com.jaehyune.stamp_app.repository.StampRepository;
 import com.jaehyune.stamp_app.repository.UserRepository;
+import com.jaehyune.stamp_app.service.CommentService;
+import com.jaehyune.stamp_app.service.ConverterMediator;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -32,12 +34,18 @@ public class CommentServiceImpl implements CommentService {
         this.photoConverter = photoConverter;
     }
 
+    @Transactional
     @Override
     public Comment save(CommentCreationDTO dto, Integer stamp_id) {
         if (stamp_id == null || stamp_id < 0) {
             throw new RuntimeException("Invalid ID: " + stamp_id);
         }
         Comment comment = toEntity(dto);
+        // if the Comment is being updated, prevent the date_created from updating
+        if (dto.getId() != null) {
+            CommentReadDTO commentReadDTO = findById(dto.getId());
+            comment.setDate_created(commentReadDTO.getDate_created());
+        }
         Optional<Stamp> temp = stampRepository.findById(stamp_id);
 
         if (temp.isPresent()) {
@@ -48,6 +56,7 @@ public class CommentServiceImpl implements CommentService {
         return commentRepository.save(comment);
     }
 
+    @Transactional
     @Override
     public CommentReadDTO findById(Integer id) {
         Optional<Comment> comment = commentRepository.findById(id);
@@ -59,12 +68,14 @@ public class CommentServiceImpl implements CommentService {
         }
     }
 
+    @Transactional
     @Override
     public List<CommentReadDTO> findAll() {
         List<Comment> comments = commentRepository.findAll();
         return comments.stream().map(this::toDto).toList();
     }
 
+    @Transactional
     @Override
     public List<CommentReadDTO> findAllCommentForStamp(Integer stamp_id) {
         Optional<Stamp> temp = stampRepository.findById(stamp_id);
@@ -85,6 +96,9 @@ public class CommentServiceImpl implements CommentService {
 
     public Comment toEntity(CommentCreationDTO dto) {
         Comment comment = new Comment();
+        if (dto.getId() != null) {
+            comment.setId(dto.getId());
+        }
         String description = dto.getDescription();
         Integer parent_id = dto.getParent_id();
         Integer user_id = dto.getUser_id();

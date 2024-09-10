@@ -3,11 +3,16 @@ package com.jaehyune.stamp_app.rest;
 import com.jaehyune.stamp_app.dto.UserCreationDTO;
 import com.jaehyune.stamp_app.dto.UserDTO;
 import com.jaehyune.stamp_app.entity.User;
+import com.jaehyune.stamp_app.rest.error.IdNotFoundException;
 import com.jaehyune.stamp_app.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * The Rest Controller for Users. This handles creating, updating, deleting and reading user entities.
+ * It delegates the work to UserService.
+ */
 @RestController
 public class UserRestController {
 

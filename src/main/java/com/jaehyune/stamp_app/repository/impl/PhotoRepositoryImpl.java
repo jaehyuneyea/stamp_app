@@ -1,6 +1,7 @@
-package com.jaehyune.stamp_app.repository;
+package com.jaehyune.stamp_app.repository.impl;
 
 import com.jaehyune.stamp_app.entity.Photo;
+import com.jaehyune.stamp_app.repository.PhotoRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
@@ -14,6 +15,12 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * The implementation of Photo's Repository layer to communicate to the database.
+ * Uses Entity Manager to customize persisting methods.
+ * This implements PhotoRepository which is used by PhotoService, StampService and CommentService to save
+ * photos to disk and the database.
+ */
 @Repository
 public class PhotoRepositoryImpl implements PhotoRepository {
 
@@ -35,6 +42,12 @@ public class PhotoRepositoryImpl implements PhotoRepository {
         return photos;
     }
 
+    /**
+     * Persists photo metadata and its corresponding file to disk.
+     * @param photo the metadata for the photo which will be saved to the database
+     * @param image the image which will be saved to disk
+     * @return Photo metadata randomized UUID and complete filepath
+     */
     @Override
     public Photo save(Photo photo, MultipartFile image) {
         String filepath = "C:/Users/Alpha PC/Desktop/repos/stamp-app/images";
@@ -54,6 +67,10 @@ public class PhotoRepositoryImpl implements PhotoRepository {
         return entityManager.merge(photo);
     }
 
+    /**
+     * Deletes a photo by finding its id, and fetching the uuid to delete its filepath from disk. then deleting the metadata.
+     * @param id id of the photo
+     */
     @Override
     public void delete(String id) {
         Photo photo = entityManager.find(Photo.class, id);

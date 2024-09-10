@@ -1,12 +1,12 @@
 package com.jaehyune.stamp_app.dto;
 
 /**
- * This is the metadata for the image that will be passed in along with the actual file.
- * filePath is not required when being passed in, but required when being from the database.
+ * This class represents a DTO used for retrieving a Photo entity from the server side.
+ * This refers to only the metadata, not the actual file.
+ * It is used to retrieve data about the photos associated to either Comment or Stamp entities and is needed by
+ * StampDTO, CommentReadDTO, CommentService, StampService and PhotoService.
  */
 public class PhotoDTO {
-    // TODO: These are always passed in as null, do we even need to pass this in..? Perhaps create association
-    //          in service layer
     private String id;
 
     private Integer stamp_id;
@@ -20,6 +20,12 @@ public class PhotoDTO {
 
     }
 
+    /**
+     *
+     * @param stamp_id the id of the Stamp the photo is associated to if it exists. Null if else.
+     * @param comment_id the id of the Comment the photo is associated to if it exists. Null if else.
+     * @param filePath the path of where the file exists. Stored as a string.
+     */
     public PhotoDTO(Integer stamp_id, Integer comment_id, String filePath) {
         this.stamp_id = stamp_id;
         this.comment_id = comment_id;

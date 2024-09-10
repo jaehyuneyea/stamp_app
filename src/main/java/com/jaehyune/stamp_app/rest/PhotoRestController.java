@@ -9,12 +9,11 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 /**
- * Reserved for testing. Likely the client should never need to upload a photo on its own without any association
+ * This Rest controller is reserved for testing. Likely the client should never need to upload a photo on its own without any association
  * to comment or stamp.
  */
 @RestController
 public class PhotoRestController {
-    // TODO: You left off here, pass in Multifile form data and handle disk saving.
     private PhotoService photoService;
 
     public PhotoRestController(PhotoService photoService) {
