@@ -29,7 +29,7 @@ public class Stamp {
     @Column(name="railway")
     private String railway;
 
-    @OneToMany(mappedBy = "stamp_id")
+    @OneToMany(mappedBy = "stampId")
     @JsonManagedReference
     private List<Comment> comments;
 

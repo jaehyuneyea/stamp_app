@@ -25,7 +25,7 @@ public class User {
     @Column(name="password")
     private String password;
 
-    @OneToMany(mappedBy = "user_id")
+    @OneToMany(mappedBy = "userId")
     @JsonManagedReference
     private List<Comment> comments;
 
