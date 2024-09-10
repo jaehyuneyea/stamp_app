@@ -21,6 +21,10 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * An integration test for UserRestController.
+ * TODO: Add more custom exceptions and testing
+ */
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 @TestPropertySource(locations = "classpath:application-test.properties")

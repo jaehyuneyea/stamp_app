@@ -14,7 +14,6 @@ import java.util.List;
  */
 @RestController
 public class PhotoRestController {
-    // TODO: You left off here, pass in Multifile form data and handle disk saving.
     private PhotoService photoService;
 
     public PhotoRestController(PhotoService photoService) {
