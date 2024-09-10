@@ -83,8 +83,8 @@ public class CommentRestController {
             List<PhotoDTO> dtos = new ArrayList<>();
             for (int i = 0; i <  images.get().length; i++) {
                 PhotoDTO tempDTO = new PhotoDTO();
-                tempDTO.setStamp_id(null);
-                tempDTO.setComment_id(comment.getId());
+                tempDTO.setStampId(null);
+                tempDTO.setCommentId(comment.getId());
                 dtos.add(tempDTO);
             }
             // Create a Map that maps all photo metadata to be created that gets passed in as key and every MultipartFile as key

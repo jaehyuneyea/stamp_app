@@ -41,7 +41,7 @@ public class StampRestController {
         Stamp stamp = stampService.save(dto);
         if (image.isPresent()) {
             PhotoDTO photoDTO = new PhotoDTO();
-            photoDTO.setStamp_id(stamp.getId());
+            photoDTO.setStampId(stamp.getId());
 
             stamp.setPhoto(photoService.save(photoDTO, image.get()));
         }

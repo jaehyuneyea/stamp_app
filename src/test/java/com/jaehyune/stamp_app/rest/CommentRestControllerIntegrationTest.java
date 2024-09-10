@@ -72,8 +72,8 @@ class CommentRestControllerIntegrationTest {
 
         commentCreationDTO = new CommentCreationDTO();
         commentCreationDTO.setDescription("test comment");
-        commentCreationDTO.setParent_id(null);
-        commentCreationDTO.setUser_id(1);
+        commentCreationDTO.setParentId(null);
+        commentCreationDTO.setUserId(1);
     }
 
     @Test
@@ -85,9 +85,9 @@ class CommentRestControllerIntegrationTest {
         Assertions.assertEquals("testuser", foundComment.getUsername());
         Assertions.assertEquals("test comment", foundComment.getDescription());
         Assertions.assertEquals(1, foundComment.getId());
-        assertNull(foundComment.getParent_id());
+        assertNull(foundComment.getParentId());
         Assertions.assertEquals(new ArrayList<>(), foundComment.getPhotos());
-        Assertions.assertEquals(comment.getDate_created(), foundComment.getDate_created());
+        Assertions.assertEquals(comment.getDateCreated(), foundComment.getDateCreated());
 
     }
 
@@ -102,9 +102,9 @@ class CommentRestControllerIntegrationTest {
         Assertions.assertEquals("testuser", commentReadDTO.getUsername());
         Assertions.assertEquals("test comment", commentReadDTO.getDescription());
         Assertions.assertEquals(1, commentReadDTO.getId());
-        assertNull(commentReadDTO.getParent_id());
+        assertNull(commentReadDTO.getParentId());
         Assertions.assertEquals(new ArrayList<>(), commentReadDTO.getPhotos());
-        Assertions.assertEquals(comment.getDate_created(), commentReadDTO.getDate_created());
+        Assertions.assertEquals(comment.getDateCreated(), commentReadDTO.getDateCreated());
     }
 
     @Test
@@ -115,8 +115,8 @@ class CommentRestControllerIntegrationTest {
         CommentCreationDTO newDTO = new CommentCreationDTO();
         newDTO.setId(1);
         newDTO.setDescription("new comment");
-        newDTO.setParent_id(null);
-        newDTO.setUser_id(1);
+        newDTO.setParentId(null);
+        newDTO.setUserId(1);
 
         commentService.save(newDTO, 1);
 
@@ -138,8 +138,8 @@ class CommentRestControllerIntegrationTest {
         Assertions.assertEquals(3, dtos.size());
         for(CommentReadDTO dto: dtos) {
             Assertions.assertEquals(commentCreationDTO.getDescription(), dto.getDescription());
-            Assertions.assertNull(dto.getParent_id());
-            Assertions.assertEquals(userService.findById(commentCreationDTO.getUser_id()).getUsername(), dto.getUsername());
+            Assertions.assertNull(dto.getParentId());
+            Assertions.assertEquals(userService.findById(commentCreationDTO.getUserId()).getUsername(), dto.getUsername());
         }
     }
 

@@ -56,20 +56,20 @@ public class PhotoServiceImpl implements PhotoService {
     @Override
     public Photo toEntity(PhotoDTO dto) {
         Photo photo = new Photo();
-        if (dto.getComment_id() != null) {
-            Optional<Comment> optComment = commentRepository.findById(dto.getComment_id());
+        if (dto.getCommentId() != null) {
+            Optional<Comment> optComment = commentRepository.findById(dto.getCommentId());
             if (optComment.isPresent()) {
                 photo.setComment(optComment.get());
             } else {
-                throw new RuntimeException("Did not find Comment with ID: " + dto.getComment_id());
+                throw new RuntimeException("Did not find Comment with ID: " + dto.getCommentId());
             }
         }
-        if (dto.getStamp_id() != null) {
-            Optional<Stamp> optStamp = stampRepository.findById(dto.getStamp_id());
+        if (dto.getStampId() != null) {
+            Optional<Stamp> optStamp = stampRepository.findById(dto.getStampId());
             if (optStamp.isPresent()) {
                 photo.setStamp(optStamp.get());
             } else {
-                throw new RuntimeException("Did not find Stamp with ID: " + dto.getStamp_id());
+                throw new RuntimeException("Did not find Stamp with ID: " + dto.getStampId());
             }
 
         }
@@ -81,14 +81,14 @@ public class PhotoServiceImpl implements PhotoService {
         PhotoDTO dto = new PhotoDTO();
         dto.setId(photo.getId());
         if (photo.getComment() != null) {
-            dto.setComment_id(photo.getComment().getId());
+            dto.setCommentId(photo.getComment().getId());
         } else {
-            dto.setComment_id(null);
+            dto.setCommentId(null);
         }
         if (photo.getStamp() != null) {
-            dto.setStamp_id(photo.getStamp().getId());
+            dto.setStampId(photo.getStamp().getId());
         } else {
-            dto.setStamp_id(null);
+            dto.setStampId(null);
         }
         dto.setFilePath(photo.getFilePath());
         return dto;

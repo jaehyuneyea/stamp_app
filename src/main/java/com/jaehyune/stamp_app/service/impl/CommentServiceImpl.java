@@ -44,12 +44,12 @@ public class CommentServiceImpl implements CommentService {
         // if the Comment is being updated, prevent the date_created from updating
         if (dto.getId() != null) {
             CommentReadDTO commentReadDTO = findById(dto.getId());
-            comment.setDate_created(commentReadDTO.getDate_created());
+            comment.setDateCreated(commentReadDTO.getDateCreated());
         }
         Optional<Stamp> temp = stampRepository.findById(stamp_id);
 
         if (temp.isPresent()) {
-            comment.setStamp_id(temp.get());
+            comment.setStampId(temp.get());
         } else {
             throw new RuntimeException("Did not find Stamp with ID: " + stamp_id);
         }
@@ -100,18 +100,18 @@ public class CommentServiceImpl implements CommentService {
             comment.setId(dto.getId());
         }
         String description = dto.getDescription();
-        Integer parent_id = dto.getParent_id();
-        Integer user_id = dto.getUser_id();
+        Integer parentId = dto.getParentId();
+        Integer userId = dto.getUserId();
 
         comment.setDescription(description);
-        comment.setParent_id(parent_id);
+        comment.setParentId(parentId);
 
-        Optional<User> tempUser = userRepository.findById(user_id);
+        Optional<User> tempUser = userRepository.findById(userId);
 
         if (tempUser.isPresent()) {
-            comment.setUser_id(tempUser.get());
+            comment.setUserId(tempUser.get());
         } else {
-            throw new RuntimeException("Did not find User with ID: " + user_id);
+            throw new RuntimeException("Did not find User with ID: " + userId);
         }
         return comment;
     }
@@ -124,10 +124,10 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public CommentReadDTO toDto(Comment comment) {
         String description = comment.getDescription();
-        Date date = comment.getDate_created();
-        Integer parent_id = comment.getParent_id();
+        Date date = comment.getDateCreated();
+        Integer parentId = comment.getParentId();
         Integer id = comment.getId();
-        String username = comment.getUser_id().getUsername();
+        String username = comment.getUserId().getUsername();
         List<PhotoDTO> photoDTOS;
         try {
             List<Photo> photos = comment.getPhotos();
@@ -136,6 +136,6 @@ public class CommentServiceImpl implements CommentService {
             throw new RuntimeException(e);
         }
 
-        return new CommentReadDTO(id, description , date, parent_id, username, photoDTOS);
+        return new CommentReadDTO(id, description , date, parentId, username, photoDTOS);
     }
 }

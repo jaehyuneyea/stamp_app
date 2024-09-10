@@ -1,8 +1,5 @@
 package com.jaehyune.stamp_app.dto;
 
-import java.util.Date;
-import java.util.List;
-
 /**
  * This class represents a DTO used for creating a Comment entity from the client side.
  * It is needed by CommentRestController and CommentService to create a new Comment entity using the values passed
@@ -20,8 +17,8 @@ import java.util.List;
 public class CommentCreationDTO {
     private Integer id;
     private String description;
-    private Integer parent_id;
-    private Integer user_id;
+    private Integer parentId;
+    private Integer userId;
 
     public CommentCreationDTO() {
 
@@ -30,13 +27,13 @@ public class CommentCreationDTO {
     /**
      *
      * @param description the description for the comment that is being written.
-     * @param parent_id the id of the parent comment if it exists. If not, it is null.
-     * @param user_id the id of the user that is posting the comment.
+     * @param parentId the id of the parent comment if it exists. If not, it is null.
+     * @param userId the id of the user that is posting the comment.
      */
-    public CommentCreationDTO(String description, Integer parent_id, Integer user_id) {
+    public CommentCreationDTO(String description, Integer parentId, Integer userId) {
         this.description = description;
-        this.parent_id = parent_id;
-        this.user_id = user_id;
+        this.parentId = parentId;
+        this.userId = userId;
     }
 
     public Integer getId() {
@@ -55,20 +52,20 @@ public class CommentCreationDTO {
         this.description = description;
     }
 
-    public Integer getParent_id() {
-        return parent_id;
+    public Integer getParentId() {
+        return parentId;
     }
 
-    public void setParent_id(Integer parent_id) {
-        this.parent_id = parent_id;
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
     }
 
-    public Integer getUser_id() {
-        return user_id;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUser_id(Integer user_id) {
-        this.user_id = user_id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
 }

@@ -12,8 +12,8 @@ public class CommentReadDTO {
 
     private Integer id;
     private String description;
-    private Date date_created;
-    private Integer parent_id;
+    private Date dateCreated;
+    private Integer parentId;
     private String username;
     private List<PhotoDTO> photos;
 
@@ -21,26 +21,26 @@ public class CommentReadDTO {
      *
      * @param id the id of the comment
      * @param description the contents of the comment
-     * @param date_created the date the comment was created. This is a Date object.
-     * @param parent_id the id of the parent comment if it exists. If not, it is null.
+     * @param dateCreated the date the comment was created. This is a Date object.
+     * @param parentId the id of the parent comment if it exists. If not, it is null.
      * @param username the name of the user that posted the comment.
      * @param photos the metadata of the photos attached to the comment if it exists. If not, it is null.
      */
-    public CommentReadDTO(Integer id, String description, Date date_created, Integer parent_id, String username, List<PhotoDTO> photos) {
+    public CommentReadDTO(Integer id, String description, Date dateCreated, Integer parentId, String username, List<PhotoDTO> photos) {
         this.id = id;
         this.description = description;
         this.username = username;
-        this.date_created = date_created;
-        this.parent_id = parent_id;
+        this.dateCreated = dateCreated;
+        this.parentId = parentId;
         this.photos = photos;
     }
 
-    public Date getDate_created() {
-        return date_created;
+    public Date getDateCreated() {
+        return dateCreated;
     }
 
-    public void setDate_created(Date date_created) {
-        this.date_created = date_created;
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
     }
 
     public String getDescription() {
@@ -51,12 +51,12 @@ public class CommentReadDTO {
         this.description = description;
     }
 
-    public Integer getParent_id() {
-        return parent_id;
+    public Integer getParentId() {
+        return parentId;
     }
 
-    public void setParent_id(Integer parent_id) {
-        this.parent_id = parent_id;
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
     }
 
     public Integer getId() {

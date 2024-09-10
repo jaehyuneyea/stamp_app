@@ -9,9 +9,9 @@ package com.jaehyune.stamp_app.dto;
 public class PhotoDTO {
     private String id;
 
-    private Integer stamp_id;
+    private Integer stampId;
 
-    private Integer comment_id;
+    private Integer commentId;
 
     private String filePath;
 
@@ -22,13 +22,13 @@ public class PhotoDTO {
 
     /**
      *
-     * @param stamp_id the id of the Stamp the photo is associated to if it exists. Null if else.
-     * @param comment_id the id of the Comment the photo is associated to if it exists. Null if else.
+     * @param stampId the id of the Stamp the photo is associated to if it exists. Null if else.
+     * @param commentId the id of the Comment the photo is associated to if it exists. Null if else.
      * @param filePath the path of where the file exists. Stored as a string.
      */
-    public PhotoDTO(Integer stamp_id, Integer comment_id, String filePath) {
-        this.stamp_id = stamp_id;
-        this.comment_id = comment_id;
+    public PhotoDTO(Integer stampId, Integer commentId, String filePath) {
+        this.stampId = stampId;
+        this.commentId = commentId;
         this.filePath = filePath;
     }
 
@@ -40,20 +40,20 @@ public class PhotoDTO {
         this.id = id;
     }
 
-    public Integer getStamp_id() {
-        return stamp_id;
+    public Integer getStampId() {
+        return stampId;
     }
 
-    public void setStamp_id(Integer stamp_id) {
-        this.stamp_id = stamp_id;
+    public void setStampId(Integer stampId) {
+        this.stampId = stampId;
     }
 
-    public Integer getComment_id() {
-        return comment_id;
+    public Integer getCommentId() {
+        return commentId;
     }
 
-    public void setComment_id(Integer comment_id) {
-        this.comment_id = comment_id;
+    public void setCommentId(Integer commentId) {
+        this.commentId = commentId;
     }
 
     public String getFilePath() {

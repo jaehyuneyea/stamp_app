@@ -3,7 +3,6 @@ package com.jaehyune.stamp_app.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import org.springframework.data.annotation.CreatedDate;
 
 import java.util.Date;
 import java.util.List;
@@ -29,22 +28,22 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "stamp_id")
     @JsonBackReference
-    private Stamp stamp_id;
+    private Stamp stampId;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonBackReference
-    private User user_id;
+    private User userId;
 
     @Column(name = "parent_id")
-    private Integer parent_id;
+    private Integer parentId;
 
     @Column(name = "description")
     private String description;
 
     @Column(name = "date_created")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date date_created;
+    private Date dateCreated;
 
     @OneToMany(mappedBy = "comment")
     @JsonManagedReference
@@ -56,25 +55,25 @@ public class Comment {
 
     /**
      *
-     * @param stamp_id Object of the stamp. Required as an object for Entity relationships.
+     * @param stampId Object of the stamp. Required as an object for Entity relationships.
      * @param user Object of the User. Required as an object for entity relationships.
-     * @param parent_id id of the parent if it exists. Null if else.
+     * @param parentId id of the parent if it exists. Null if else.
      * @param description contents of the comment.
-     * @param date_created date the comment was created. Uses pre-persist.
+     * @param dateCreated date the comment was created. Uses pre-persist.
      * @param photos photos associated with the comments. Null if none exist.
      */
-    public Comment(Stamp stamp_id, User user, Integer parent_id, String description, Date date_created, List<Photo> photos) {
-        this.stamp_id = stamp_id;
-        this.user_id = user;
-        this.parent_id = parent_id;
+    public Comment(Stamp stampId, User user, Integer parentId, String description, Date dateCreated, List<Photo> photos) {
+        this.stampId = stampId;
+        this.userId = user;
+        this.parentId = parentId;
         this.description = description;
-        this.date_created = date_created;
+        this.dateCreated = dateCreated;
         this.photos = photos;
     }
 
     @PrePersist
-    public void date_created() {
-        this.date_created = new Date();
+    public void dateCreated() {
+        this.dateCreated = new Date();
     }
 
     public Integer getId() {
@@ -85,28 +84,28 @@ public class Comment {
         this.id = id;
     }
 
-    public Stamp getStamp_id() {
-        return stamp_id;
+    public Stamp getStampId() {
+        return stampId;
     }
 
-    public User getUser_id() {
-        return user_id;
+    public User getUserId() {
+        return userId;
     }
 
-    public void setUser_id(User user_id) {
-        this.user_id = user_id;
+    public void setUserId(User userId) {
+        this.userId = userId;
     }
 
-    public void setStamp_id(Stamp stamp_id) {
-        this.stamp_id = stamp_id;
+    public void setStampId(Stamp stampId) {
+        this.stampId = stampId;
     }
 
-    public Integer getParent_id() {
-        return parent_id;
+    public Integer getParentId() {
+        return parentId;
     }
 
-    public void setParent_id(Integer parent_id) {
-        this.parent_id = parent_id;
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
     }
 
     public String getDescription() {
@@ -117,12 +116,12 @@ public class Comment {
         this.description = description;
     }
 
-    public Date getDate_created() {
-        return date_created;
+    public Date getDateCreated() {
+        return dateCreated;
     }
 
-    public void setDate_created(Date date_created) {
-        this.date_created = date_created;
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
     }
 
     public List<Photo> getPhotos() {
