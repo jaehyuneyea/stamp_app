@@ -56,7 +56,7 @@ class CommentRestControllerIntegrationTest {
 
     @BeforeEach
     public void setup() {
-        stampDTO = new StampDTO();
+        stampDTO = StampDTO.builder().build();
         stampDTO.setId(0);
         stampDTO.setDescription("test railway");
         stampDTO.setRailway("test lines");
@@ -67,10 +67,13 @@ class CommentRestControllerIntegrationTest {
 
         stampService.save(stampDTO);
 
-        UserCreationDTO userCreationDTO = new UserCreationDTO("testuser", "abc@email.com", "test123");
+        UserCreationDTO userCreationDTO = UserCreationDTO.builder().build();
+        userCreationDTO.setUsername("testuser");
+        userCreationDTO.setEmail("abc@email.com");
+        userCreationDTO.setPassword("test123");
         userService.createUser(userCreationDTO);
 
-        commentCreationDTO = new CommentCreationDTO();
+        commentCreationDTO = CommentCreationDTO.builder().build();
         commentCreationDTO.setDescription("test comment");
         commentCreationDTO.setParentId(null);
         commentCreationDTO.setUserId(1);
@@ -112,7 +115,7 @@ class CommentRestControllerIntegrationTest {
         Comment comment = commentService.save(commentCreationDTO, 1);
         Assertions.assertEquals(1, comment.getId());
 
-        CommentCreationDTO newDTO = new CommentCreationDTO();
+        CommentCreationDTO newDTO = CommentCreationDTO.builder().build();
         newDTO.setId(1);
         newDTO.setDescription("new comment");
         newDTO.setParentId(null);

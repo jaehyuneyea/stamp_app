@@ -76,11 +76,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO toDto(User user) {
-        UserDTO dto = new UserDTO();
-        dto.setId(user.getId());
-        dto.setEmail(user.getEmail());
-        dto.setUsername(user.getUsername());
-
-        return dto;
+        return UserDTO.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .username(user.getUsername())
+                .build();
     }
 }

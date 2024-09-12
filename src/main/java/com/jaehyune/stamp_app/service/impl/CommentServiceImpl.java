@@ -15,6 +15,7 @@ import com.jaehyune.stamp_app.service.ConverterMediator;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -95,7 +96,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     public Comment toEntity(CommentCreationDTO dto) {
-        Comment comment = new Comment();
+        Comment comment = new Comment(); // we can change this here as well
         if (dto.getId() != null) {
             comment.setId(dto.getId());
         }
@@ -123,19 +124,17 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentReadDTO toDto(Comment comment) {
-        String description = comment.getDescription();
-        Date date = comment.getDateCreated();
-        Integer parentId = comment.getParentId();
-        Integer id = comment.getId();
-        String username = comment.getUserId().getUsername();
-        List<PhotoDTO> photoDTOS;
-        try {
-            List<Photo> photos = comment.getPhotos();
-            photoDTOS = photos.stream().map(photo -> photoConverter.toDto(photo)).toList();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-        return new CommentReadDTO(id, description , date, parentId, username, photoDTOS);
+        return CommentReadDTO.builder()
+                .id(comment.getId())
+                .description(comment.getDescription())
+                .parentId(comment.getParentId())
+                .username(comment.getUserId() != null ? comment.getUserId().getUsername() : null)
+                .dateCreated(comment.getDateCreated())
+                .photoDTOs(comment.getPhotos() != null ?
+                        comment.getPhotos()
+                        .stream()
+                        .map(photo -> photoConverter.toDto(photo)).toList()
+                        : Collections.emptyList())
+                .build();
     }
 }

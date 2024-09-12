@@ -42,7 +42,7 @@ class StampRestControllerIntegrationTest {
 
     @BeforeEach
     public void setup() {
-        stampDTO = new StampDTO();
+        stampDTO = StampDTO.builder().build();
         stampDTO.setId(0);
         stampDTO.setDescription("test railway");
         stampDTO.setRailway("test lines");
@@ -81,7 +81,7 @@ class StampRestControllerIntegrationTest {
         Assertions.assertEquals(stampDTO.getRating(), dto_from_db.getRating());
         Assertions.assertEquals(stampDTO.getPhoto(), dto_from_db.getPhoto());
 
-        StampDTO stampDTO = new StampDTO();
+        StampDTO stampDTO = StampDTO.builder().build();
         stampDTO.setId(2);
         stampDTO.setDescription("updated railway");
         stampDTO.setRailway("test lines");

@@ -78,19 +78,11 @@ public class PhotoServiceImpl implements PhotoService {
 
     @Override
     public PhotoDTO toDto(Photo photo) {
-        PhotoDTO dto = new PhotoDTO();
-        dto.setId(photo.getId());
-        if (photo.getComment() != null) {
-            dto.setCommentId(photo.getComment().getId());
-        } else {
-            dto.setCommentId(null);
-        }
-        if (photo.getStamp() != null) {
-            dto.setStampId(photo.getStamp().getId());
-        } else {
-            dto.setStampId(null);
-        }
-        dto.setFilePath(photo.getFilePath());
-        return dto;
+        return PhotoDTO.builder()
+                .id(photo.getId())
+                .commentId(photo.getComment() != null ? photo.getComment().getId() : null)
+                .stampId(photo.getStamp() != null ? photo.getStamp().getId() : null)
+                .filePath(photo.getFilePath())
+                .build();
     }
 }

@@ -1,66 +1,24 @@
 package com.jaehyune.stamp_app.dto;
 
+import lombok.Builder;
+import lombok.Data;
+
 /**
  * This class represents a DTO used for retrieving a Photo entity from the server side.
  * This refers to only the metadata, not the actual file.
  * It is used to retrieve data about the photos associated to either Comment or Stamp entities and is needed by
  * StampDTO, CommentReadDTO, CommentService, StampService and PhotoService.
  */
+@Builder
+@Data
 public class PhotoDTO {
-    private String id;
-
-    private Integer stampId;
-
-    private Integer commentId;
-
-    private String filePath;
-
-
-    public PhotoDTO() {
-
-    }
-
     /**
-     *
-     * @param stampId the id of the Stamp the photo is associated to if it exists. Null if else.
-     * @param commentId the id of the Comment the photo is associated to if it exists. Null if else.
-     * @param filePath the path of where the file exists. Stored as a string.
+     * stampId: the id of the Stamp the photo is associated to if it exists. Null if else.
+     * commentId: the id of the Comment the photo is associated to if it exists. Null if else.
+     * filePath: the path of where the file exists. Stored as a string.
      */
-    public PhotoDTO(Integer stampId, Integer commentId, String filePath) {
-        this.stampId = stampId;
-        this.commentId = commentId;
-        this.filePath = filePath;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public Integer getStampId() {
-        return stampId;
-    }
-
-    public void setStampId(Integer stampId) {
-        this.stampId = stampId;
-    }
-
-    public Integer getCommentId() {
-        return commentId;
-    }
-
-    public void setCommentId(Integer commentId) {
-        this.commentId = commentId;
-    }
-
-    public String getFilePath() {
-        return filePath;
-    }
-
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
-    }
+    private String id;
+    private Integer stampId;
+    private Integer commentId;
+    private String filePath;
 }

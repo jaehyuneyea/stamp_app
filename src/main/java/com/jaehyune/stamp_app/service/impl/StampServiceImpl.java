@@ -12,6 +12,7 @@ import com.jaehyune.stamp_app.service.StampService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -79,19 +80,19 @@ public class StampServiceImpl implements StampService {
 
     @Override
     public StampDTO toDto(Stamp stamp) {
-        StampDTO dto = new StampDTO();
-        dto.setDescription(stamp.getDescription());
-        dto.setRailway(stamp.getRailway());
-        dto.setId(stamp.getId());
-        dto.setRating(stamp.getRating());
-
-        List<Comment> comments = stamp.getComments();
-        dto.setComments(comments.stream().map(comment -> commentConverter.toDto(comment)).toList());
-
-        Photo photo = stamp.getPhoto();
-        if (photo != null ) {
-            dto.setPhoto(photoConverter.toDto(photo));
-        }
-        return dto;
+        return StampDTO.builder()
+                .description(stamp.getDescription())
+                .railway(stamp.getRailway())
+                .id(stamp.getId())
+                .rating(stamp.getRating())
+                .comments(stamp.getComments() != null ?
+                        stamp.getComments()
+                                .stream()
+                                .map(comment -> commentConverter.toDto(comment)).toList()
+                        : Collections.emptyList())
+                .photo(stamp.getPhoto() != null ?
+                        photoConverter.toDto(stamp.getPhoto())
+                        : null)
+                .build();
     }
 }

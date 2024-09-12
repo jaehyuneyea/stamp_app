@@ -19,12 +19,11 @@ import lombok.*;
  *     "user_id": 1
  * }
  */
-@Data
 @Builder(toBuilder = true)
+@Data
 public class CommentCreationDTO {
     private Integer id;
     private String description;
     private Integer parentId;
     private Integer userId;
-
 }

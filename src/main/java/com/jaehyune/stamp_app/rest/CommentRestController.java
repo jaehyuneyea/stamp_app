@@ -75,14 +75,14 @@ public class CommentRestController {
                                    @PathVariable Integer stamp_id,
                                    @RequestPart Optional<MultipartFile[]> images) {
         // we return comment first so that it can return a valid id
-        dto.setId(0);
         Comment comment =  commentService.save(dto, stamp_id);
         if (images.isPresent()) {
 
             // Populate a list of PhotoDTOs with corresponding comment ID with length of images passed in
+            // TODO: You left off here, test if photos work with postman
             List<PhotoDTO> dtos = new ArrayList<>();
             for (int i = 0; i <  images.get().length; i++) {
-                PhotoDTO tempDTO = new PhotoDTO();
+                PhotoDTO tempDTO = PhotoDTO.builder().build();
                 tempDTO.setStampId(null);
                 tempDTO.setCommentId(comment.getId());
                 dtos.add(tempDTO);
