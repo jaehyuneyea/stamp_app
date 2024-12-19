@@ -11,6 +11,8 @@ import java.util.List;
  * Stamp has a one-to-one relationship with Photo, owning the one side.
  * Meaning Stamps can have one Photo and Stamp can own many Comments.
  */
+// TODO: change this to follow Lombok format
+
 @Entity
 @Table(name="stamps")
 public class Stamp {

@@ -57,6 +57,7 @@ public class StampServiceImpl implements StampService {
         stampRepository.deleteById(id);
     }
 
+    // TODO: Lombok
     @Override
     public Stamp toEntity(StampDTO dto) {
         Stamp stamp = new Stamp();

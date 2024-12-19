@@ -13,6 +13,7 @@ import java.util.Date;
  * <p>
  * Photo's ID is stored as a UUID.
  */
+// TODO: change this to follow Lombok format
 @Entity
 @Table(name = "photos")
 public class Photo {

@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 import java.util.List;
 
+// TODO: change this to follow Lombok format
 
 @Entity
 @Table(name="users")

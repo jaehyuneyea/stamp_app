@@ -13,10 +13,9 @@ import lombok.*;
  * When calling a POST HTTP request, the JSON body should be formatted as such:
  * <p>
  * {
- *     "id": null,
  *     "description": "pretty good stamp",
- *     "parent_id": null,
- *     "user_id": 1
+ *     "parentId": null,
+ *     "userId": 1
  * }
  */
 @Builder(toBuilder = true)

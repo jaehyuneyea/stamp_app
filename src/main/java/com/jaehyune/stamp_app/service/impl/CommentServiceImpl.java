@@ -96,25 +96,27 @@ public class CommentServiceImpl implements CommentService {
     }
 
     public Comment toEntity(CommentCreationDTO dto) {
-        Comment comment = new Comment(); // we can change this here as well
-        if (dto.getId() != null) {
-            comment.setId(dto.getId());
-        }
-        String description = dto.getDescription();
-        Integer parentId = dto.getParentId();
         Integer userId = dto.getUserId();
-
-        comment.setDescription(description);
-        comment.setParentId(parentId);
-
         Optional<User> tempUser = userRepository.findById(userId);
 
-        if (tempUser.isPresent()) {
-            comment.setUserId(tempUser.get());
-        } else {
+        if (tempUser.isEmpty()) {
             throw new RuntimeException("Did not find User with ID: " + userId);
         }
-        return comment;
+        return Comment.builder()
+                .id(dto.getId() != null ? dto.getId() : null)
+                .description(dto.getDescription())
+                .parentId(dto.getParentId())
+                .userId(tempUser.get())
+                .build();
+//        if (dto.getId() != null) {
+//            comment.setId(dto.getId());
+//        }
+//        String description = dto.getDescription();
+//        Integer parentId = dto.getParentId();
+//
+//
+//        comment.setDescription(description);
+//        comment.setParentId(parentId);
     }
 
     @Override

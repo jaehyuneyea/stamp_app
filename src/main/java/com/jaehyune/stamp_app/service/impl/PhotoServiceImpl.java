@@ -53,6 +53,7 @@ public class PhotoServiceImpl implements PhotoService {
         photoRepository.delete(id);
     }
 
+    // TODO: Lombok
     @Override
     public Photo toEntity(PhotoDTO dto) {
         Photo photo = new Photo();

@@ -91,7 +91,6 @@ class CommentRestControllerIntegrationTest {
         assertNull(foundComment.getParentId());
         Assertions.assertEquals(new ArrayList<>(), foundComment.getPhotoDTOs());
         Assertions.assertEquals(comment.getDateCreated(), foundComment.getDateCreated());
-
     }
 
     @Test

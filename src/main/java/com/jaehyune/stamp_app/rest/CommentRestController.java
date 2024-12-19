@@ -79,7 +79,6 @@ public class CommentRestController {
         if (images.isPresent()) {
 
             // Populate a list of PhotoDTOs with corresponding comment ID with length of images passed in
-            // TODO: You left off here, test if photos work with postman
             List<PhotoDTO> dtos = new ArrayList<>();
             for (int i = 0; i <  images.get().length; i++) {
                 PhotoDTO tempDTO = PhotoDTO.builder().build();
