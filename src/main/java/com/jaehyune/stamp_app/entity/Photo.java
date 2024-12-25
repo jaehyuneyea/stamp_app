@@ -2,6 +2,7 @@ package com.jaehyune.stamp_app.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.Date;
 /**
@@ -12,8 +13,17 @@ import java.util.Date;
  * Meaning Stamps can have one Photo and Comments can own many Photos.
  * <p>
  * Photo's ID is stored as a UUID.
+ *
+ *  stamp Object of the stamp. Required as an object for Entity relationships.
+ *  comment Object of the comment. Required as an object for Entity relationships.
+ *  filePath path of the file stored as String. This is set during persistence.
+ *  dateCreated date the photo was created. Uses pre-persist.
  */
-// TODO: change this to follow Lombok format
+@Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "photos")
 public class Photo {
@@ -38,66 +48,8 @@ public class Photo {
     @Column(name = "date_created")
     private Date dateCreated;
 
-    public Photo() {
-
-    }
-
-    /**
-     *
-     * @param stamp Object of the stamp. Required as an object for Entity relationships.
-     * @param comment Object of the comment. Required as an object for Entity relationships.
-     * @param filePath path of the file stored as String. This is set during persistence.
-     * @param dateCreated date the photo was created. Uses pre-persist.
-     */
-    public Photo(Stamp stamp, Comment comment, String filePath, Date dateCreated) {
-        this.stamp = stamp;
-        this.comment = comment;
-        this.filePath = filePath;
-        this.dateCreated = dateCreated;
-    }
-
     @PrePersist // fetch the date programmatically before persisting
     public void dateCreated() {
         this.dateCreated = new Date();
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public Stamp getStamp() {
-        return stamp;
-    }
-
-    public void setStamp(Stamp stamp) {
-        this.stamp = stamp;
-    }
-
-    public Comment getComment() {
-        return comment;
-    }
-
-    public void setComment(Comment comment) {
-        this.comment = comment;
-    }
-
-    public String getFilePath() {
-        return filePath;
-    }
-
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
-    }
-
-    public Date getDateCreated() {
-        return dateCreated;
-    }
-
-    private void setDateCreated(Date dateCreated) {
-        this.dateCreated = dateCreated;
     }
 }
