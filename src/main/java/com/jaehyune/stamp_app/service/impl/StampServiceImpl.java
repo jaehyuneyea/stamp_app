@@ -57,26 +57,19 @@ public class StampServiceImpl implements StampService {
         stampRepository.deleteById(id);
     }
 
-    // TODO: Lombok
     @Override
     public Stamp toEntity(StampDTO dto) {
-        Stamp stamp = new Stamp();
-        stamp.setId(dto.getId());
-        stamp.setDescription(dto.getDescription());
-        stamp.setRating(dto.getRating());
-        stamp.setRailway(dto.getRailway());
-
-        if (dto.getComments() != null) {
-            List<CommentReadDTO> commentDTOS = dto.getComments();
-            stamp.setComments(commentDTOS.stream().map(commentDTO -> commentConverter.toEntity(commentDTO)).toList());
-        }
-
-//        PhotoDTO photoDTO = dto.getPhoto();
-//        if (photoDTO != null) {
-//            stamp.setPhoto(photoConverter.toEntity(photoDTO)); // TODO: Maybe set id in to entity
-//
-//        }
-        return stamp;
+        return Stamp.builder()
+                .id(dto.getId())
+                .description(dto.getDescription())
+                .rating(dto.getRating())
+                .railway(dto.getRailway())
+                .comments(dto.getComments() != null ?
+                        dto.getComments()
+                                .stream()
+                                .map(commentDTO -> commentConverter.toEntity(commentDTO)).toList()
+                        : Collections.emptyList())
+                .build();
     }
 
     @Override

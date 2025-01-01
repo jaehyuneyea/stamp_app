@@ -63,16 +63,13 @@ public class UserServiceImpl implements UserService {
         return toDto(user);
     }
 
-    // TODO: Lombok
     @Override
     public User toEntity(UserDTO dto) {
-        User user = new User();
-
-        user.setId(dto.getId());
-        user.setEmail(dto.getEmail());
-        user.setUsername(dto.getUsername());
-
-        return user;
+        return User.builder()
+                .id(dto.getId())
+                .email(dto.getEmail())
+                .username(dto.getUsername())
+                .build();
     }
 
     @Override

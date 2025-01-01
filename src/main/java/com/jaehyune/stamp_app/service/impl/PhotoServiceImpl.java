@@ -53,14 +53,14 @@ public class PhotoServiceImpl implements PhotoService {
         photoRepository.delete(id);
     }
 
-    // TODO: Lombok
     @Override
     public Photo toEntity(PhotoDTO dto) {
-        Photo photo = new Photo();
+        Comment comment = null;
+        Stamp stamp = null;
         if (dto.getCommentId() != null) {
             Optional<Comment> optComment = commentRepository.findById(dto.getCommentId());
             if (optComment.isPresent()) {
-                photo.setComment(optComment.get());
+                comment = optComment.get();
             } else {
                 throw new RuntimeException("Did not find Comment with ID: " + dto.getCommentId());
             }
@@ -68,13 +68,16 @@ public class PhotoServiceImpl implements PhotoService {
         if (dto.getStampId() != null) {
             Optional<Stamp> optStamp = stampRepository.findById(dto.getStampId());
             if (optStamp.isPresent()) {
-                photo.setStamp(optStamp.get());
+                stamp = optStamp.get();
             } else {
                 throw new RuntimeException("Did not find Stamp with ID: " + dto.getStampId());
             }
 
         }
-        return photo;
+        return Photo.builder()
+                .comment(comment)
+                .stamp(stamp)
+                .build();
     }
 
     @Override

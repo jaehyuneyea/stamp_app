@@ -108,15 +108,6 @@ public class CommentServiceImpl implements CommentService {
                 .parentId(dto.getParentId())
                 .userId(tempUser.get())
                 .build();
-//        if (dto.getId() != null) {
-//            comment.setId(dto.getId());
-//        }
-//        String description = dto.getDescription();
-//        Integer parentId = dto.getParentId();
-//
-//
-//        comment.setDescription(description);
-//        comment.setParentId(parentId);
     }
 
     @Override
