@@ -37,18 +37,15 @@ public class StampRestController {
         if (dto.getId() != null) {
             throw new RuntimeException("ID field should not exist for creating stamps");
         }
-        dto.setId(0); // because stamp adds when id = 0 and sets id automatically in db
         Stamp stamp = stampService.save(dto);
         if (image.isPresent()) {
-            PhotoDTO photoDTO = new PhotoDTO();
-            photoDTO.setStamp_id(stamp.getId());
-
+            PhotoDTO photoDTO = PhotoDTO.builder().build();
+            photoDTO.setStampId(stamp.getId());
             stamp.setPhoto(photoService.save(photoDTO, image.get()));
         }
         return stamp;
     }
     // TODO: Handle updates with images
-    // TODO: You left off here. Handle exceptions by creating a ExceptionHandler and error response.
     @PutMapping("/stamps")
     public Stamp updateStamp(@RequestBody StampDTO dto) {
         if (dto.getId() == null) {

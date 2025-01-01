@@ -50,7 +50,7 @@ public class PhotoRepositoryImpl implements PhotoRepository {
      */
     @Override
     public Photo save(Photo photo, MultipartFile image) {
-        String filepath = "C:/Users/Alpha PC/Desktop/repos/stamp-app/images";
+        String filepath = System.getenv("FILE_PATH");
         photo.setId(UUID.randomUUID().toString());
         try {
             Path path = Paths.get(filepath);
