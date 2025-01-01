@@ -91,6 +91,9 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public void delete(Integer id) {
+        if (id < 0) {
+            throw new RuntimeException("Invalid ID: " + id);
+        }
         commentRepository.deleteById(id);
     }
 

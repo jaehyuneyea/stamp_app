@@ -97,7 +97,7 @@ class CommentServiceImplUnitTest {
     }
 
     @Test
-    void findAll() {
+    void findAll_comment() {
         Integer user_id = 1;
         List<Comment> tempList = new ArrayList<>();
         CommentCreationDTO commentCreationDTO = new CommentCreationDTO("test", null, user_id);
@@ -120,11 +120,19 @@ class CommentServiceImplUnitTest {
     }
 
     @Test
-    void delete() {
+    void delete_comment() {
         // there is no business logic, so we simply check it is invoking the repository.
         Integer commentId = 1;
 
         commentService.delete(commentId);
         verify(commentRepository, times(1)).deleteById(commentId);
+    }
+
+    @Test
+    void delete_comment_invalid_id() throws RuntimeException {
+        Integer commentId = -1;
+
+        assertThrows(RuntimeException.class, () -> commentService.delete(commentId));
+        verify(commentRepository, times(0)).deleteById(commentId);
     }
 }
