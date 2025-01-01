@@ -53,6 +53,9 @@ public class StampServiceImpl implements StampService {
 
     @Override
     public void delete(Integer id) {
+        if (id < 0) {
+            throw new RuntimeException("Invalid ID: " + id);
+        }
         stampRepository.deleteById(id);
     }
 
