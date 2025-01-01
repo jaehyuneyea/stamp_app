@@ -4,6 +4,10 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 **/application.properties
+**/images
+
+### Mac specific ###
+**/.DS_Store
 
 ### STS ###
 .apt_generated
