@@ -94,6 +94,7 @@ public class CommentServiceImpl implements CommentService {
         commentRepository.deleteById(id);
     }
 
+    // TODO: Lombok
     public Comment toEntity(CommentCreationDTO dto) {
         Comment comment = new Comment();
         if (dto.getId() != null) {
