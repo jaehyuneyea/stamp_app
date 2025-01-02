@@ -30,11 +30,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void delete(Integer id) {
+        if (id == null || id < 0) {
+            throw new RuntimeException("Invalid ID: " + id);
+        }
         userRepository.deleteById(id);
     }
 
     @Override
     public UserDTO findById(Integer id) {
+        if (id == null || id < 0) {
+            throw new RuntimeException("Invalid ID: " + id);
+        }
         Optional<User> result = userRepository.findById(id);
         if (result.isPresent()) {
             return toDto(result.get());
