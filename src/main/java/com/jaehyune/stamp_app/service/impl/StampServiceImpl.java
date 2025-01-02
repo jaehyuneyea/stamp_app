@@ -36,6 +36,9 @@ public class StampServiceImpl implements StampService {
     @Transactional
     @Override
     public StampDTO findById(Integer id) {
+        if (id == null || id < 0) {
+            throw new RuntimeException("Invalid ID: " + id);
+        }
         Optional<Stamp> tempStamp = stampRepository.findById(id);
         if (tempStamp.isPresent()) {
             return toDto(tempStamp.get());

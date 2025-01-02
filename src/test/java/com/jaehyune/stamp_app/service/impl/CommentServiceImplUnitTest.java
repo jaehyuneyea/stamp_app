@@ -90,6 +90,13 @@ class CommentServiceImplUnitTest {
     }
 
     @Test
+    void findById_comment_invalid() {
+        Integer comment_id = -1;
+        assertThrows(RuntimeException.class, () -> commentService.findById(comment_id));
+        verify(commentRepository, never()).findById(comment_id);
+    }
+
+    @Test
     void findById_comment_not_found() throws RuntimeException {
         Integer commentId = 1;
         assertThrows(RuntimeException.class, () -> commentService.findById(commentId));
@@ -117,6 +124,13 @@ class CommentServiceImplUnitTest {
         }
         assertEquals(3, commentService.findAll().size());
         verify(commentRepository, times(1)).findAll();
+    }
+
+    @Test
+    void findAll_comment_for_stamp_invalid() {
+        Integer stamp_id = -1;
+        assertThrows(RuntimeException.class, () -> commentService.findAllCommentForStamp(stamp_id));
+        verify(stampRepository, never()).findById(stamp_id);
     }
 
     @Test

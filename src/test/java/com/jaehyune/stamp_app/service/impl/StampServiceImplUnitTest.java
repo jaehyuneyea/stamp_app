@@ -57,6 +57,13 @@ class StampServiceImplUnitTest {
     }
 
     @Test
+    void findById_stamp_invalid() throws RuntimeException {
+        Integer stamp_id = -1;
+        assertThrows(RuntimeException.class, () -> stampService.findById(stamp_id));
+        verify(stampRepository, never()).findById(stamp_id);
+    }
+
+    @Test
     void findAll_stamp() {
         stampService.findAll();
         verify(stampRepository, times(1)).findAll();

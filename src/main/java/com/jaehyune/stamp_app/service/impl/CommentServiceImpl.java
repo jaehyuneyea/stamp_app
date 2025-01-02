@@ -59,6 +59,9 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     @Override
     public CommentReadDTO findById(Integer id) {
+        if (id == null || id < 0) {
+            throw new RuntimeException("Invalid ID: " + id);
+        }
         Optional<Comment> comment = commentRepository.findById(id);
 
         if (comment.isPresent()) {
@@ -78,6 +81,9 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     @Override
     public List<CommentReadDTO> findAllCommentForStamp(Integer stamp_id) {
+        if (stamp_id == null || stamp_id < 0) {
+            throw new RuntimeException("Invalid ID: " + stamp_id);
+        }
         Optional<Stamp> temp = stampRepository.findById(stamp_id);
         Stamp stamp;
         if (temp.isPresent()) {
@@ -91,7 +97,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public void delete(Integer id) {
-        if (id < 0) {
+        if (id == null || id < 0) {
             throw new RuntimeException("Invalid ID: " + id);
         }
         commentRepository.deleteById(id);
