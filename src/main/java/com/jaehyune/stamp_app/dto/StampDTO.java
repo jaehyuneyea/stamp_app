@@ -1,5 +1,8 @@
 package com.jaehyune.stamp_app.dto;
 
+import lombok.Builder;
+import lombok.Data;
+
 import java.util.List;
 
 /**
@@ -16,85 +19,21 @@ import java.util.List;
  *     "comments": []
  * }
  */
+@Builder
+@Data
 public class StampDTO {
 
-    private Integer id;
-
-    private String description;
-
-    private float rating;
-
-    private String railway;
-
-    private List<CommentReadDTO> comments;
-
-    private PhotoDTO photo;
-
-    public StampDTO() {
-
-    }
-
     /**
-     *
-     * @param id id of the stamp. This is not required when creating a new Stamp.
-     * @param description the description of the stamp like name, location, etc.
-     * @param rating rating of the stamp intended to be set by the users.
-     * @param railway which railway it belongs to
-     * @param photo the photo associated to the Stamp. This is not required when creaeting a new Stamp.
+     * id: id of the stamp. This is not required when creating a new Stamp.
+     * description: the description of the stamp like name, location, etc.
+     * rating: rating of the stamp intended to be set by the users.
+     * railway: which railway it belongs to
+     * photo: the photo associated to the Stamp. This is not required when creaeting a new Stamp.
      */
-    public StampDTO(Integer id, String description, float rating, String railway, PhotoDTO photo) {
-        this.id = id;
-        this.description = description;
-        this.rating = rating;
-        this.railway = railway;
-        this.photo = photo;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public float getRating() {
-        return rating;
-    }
-
-    public void setRating(float rating) {
-        this.rating = rating;
-    }
-
-    public String getRailway() {
-        return railway;
-    }
-
-    public void setRailway(String railway) {
-        this.railway = railway;
-    }
-
-    public List<CommentReadDTO> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<CommentReadDTO> comments) {
-        this.comments = comments;
-    }
-
-    public PhotoDTO getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(PhotoDTO photo) {
-        this.photo = photo;
-    }
+    private Integer id;
+    private String description;
+    private float rating;
+    private String railway;
+    private List<CommentReadDTO> comments;
+    private PhotoDTO photo;
 }

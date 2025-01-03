@@ -3,11 +3,12 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-**/application.properties
-**/images
+**/application.propertie
 
 ### Mac specific ###
 **/.DS_Store
+
+images/
 
 ### STS ###
 .apt_generated
@@ -17,6 +18,7 @@ target/
 .settings
 .springBeans
 .sts4-cache
+.DS_Store
 
 ### IntelliJ IDEA ###
 .idea

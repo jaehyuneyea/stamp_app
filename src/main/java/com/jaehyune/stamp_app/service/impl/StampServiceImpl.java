@@ -12,6 +12,7 @@ import com.jaehyune.stamp_app.service.StampService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,40 +65,34 @@ public class StampServiceImpl implements StampService {
 
     @Override
     public Stamp toEntity(StampDTO dto) {
-        Stamp stamp = new Stamp();
-        stamp.setId(dto.getId());
-        stamp.setDescription(dto.getDescription());
-        stamp.setRating(dto.getRating());
-        stamp.setRailway(dto.getRailway());
-
-        if (dto.getComments() != null) {
-            List<CommentReadDTO> commentDTOS = dto.getComments();
-            stamp.setComments(commentDTOS.stream().map(commentDTO -> commentConverter.toEntity(commentDTO)).toList());
-        }
-
-//        PhotoDTO photoDTO = dto.getPhoto();
-//        if (photoDTO != null) {
-//            stamp.setPhoto(photoConverter.toEntity(photoDTO)); // TODO: Maybe set id in to entity
-//
-//        }
-        return stamp;
+        return Stamp.builder()
+                .id(dto.getId())
+                .description(dto.getDescription())
+                .rating(dto.getRating())
+                .railway(dto.getRailway())
+                .comments(dto.getComments() != null ?
+                        dto.getComments()
+                                .stream()
+                                .map(commentDTO -> commentConverter.toEntity(commentDTO)).toList()
+                        : Collections.emptyList())
+                .build();
     }
 
     @Override
     public StampDTO toDto(Stamp stamp) {
-        StampDTO dto = new StampDTO();
-        dto.setDescription(stamp.getDescription());
-        dto.setRailway(stamp.getRailway());
-        dto.setId(stamp.getId());
-        dto.setRating(stamp.getRating());
-
-        List<Comment> comments = stamp.getComments();
-        dto.setComments(comments.stream().map(comment -> commentConverter.toDto(comment)).toList());
-
-        Photo photo = stamp.getPhoto();
-        if (photo != null ) {
-            dto.setPhoto(photoConverter.toDto(photo));
-        }
-        return dto;
+        return StampDTO.builder()
+                .description(stamp.getDescription())
+                .railway(stamp.getRailway())
+                .id(stamp.getId())
+                .rating(stamp.getRating())
+                .comments(stamp.getComments() != null ?
+                        stamp.getComments()
+                                .stream()
+                                .map(comment -> commentConverter.toDto(comment)).toList()
+                        : Collections.emptyList())
+                .photo(stamp.getPhoto() != null ?
+                        photoConverter.toDto(stamp.getPhoto())
+                        : null)
+                .build();
     }
 }
