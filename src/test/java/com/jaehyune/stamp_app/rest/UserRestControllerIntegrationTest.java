@@ -45,9 +45,9 @@ class UserRestControllerIntegrationTest {
 
     @BeforeEach
     public void setup() {
-        userCreationDTO = new UserCreationDTO();
-        userCreationDTO.setEmail("test@email.com");
+        userCreationDTO = UserCreationDTO.builder().build();
         userCreationDTO.setUsername("testuser");
+        userCreationDTO.setEmail("test@email.com");
         userCreationDTO.setPassword("test123");
     }
 

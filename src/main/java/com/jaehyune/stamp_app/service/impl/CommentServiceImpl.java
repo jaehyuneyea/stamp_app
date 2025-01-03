@@ -15,6 +15,7 @@ import com.jaehyune.stamp_app.service.ConverterMediator;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -44,12 +45,12 @@ public class CommentServiceImpl implements CommentService {
         // if the Comment is being updated, prevent the date_created from updating
         if (dto.getId() != null) {
             CommentReadDTO commentReadDTO = findById(dto.getId());
-            comment.setDate_created(commentReadDTO.getDate_created());
+            comment.setDateCreated(commentReadDTO.getDateCreated());
         }
         Optional<Stamp> temp = stampRepository.findById(stamp_id);
 
         if (temp.isPresent()) {
-            comment.setStamp_id(temp.get());
+            comment.setStampId(temp.get());
         } else {
             throw new RuntimeException("Did not find Stamp with ID: " + stamp_id);
         }
@@ -105,25 +106,18 @@ public class CommentServiceImpl implements CommentService {
 
     // TODO: Lombok
     public Comment toEntity(CommentCreationDTO dto) {
-        Comment comment = new Comment();
-        if (dto.getId() != null) {
-            comment.setId(dto.getId());
+        Integer userId = dto.getUserId();
+        Optional<User> tempUser = userRepository.findById(userId);
+
+        if (tempUser.isEmpty()) {
+            throw new RuntimeException("Did not find User with ID: " + userId);
         }
-        String description = dto.getDescription();
-        Integer parent_id = dto.getParent_id();
-        Integer user_id = dto.getUser_id();
-
-        comment.setDescription(description);
-        comment.setParent_id(parent_id);
-
-        Optional<User> tempUser = userRepository.findById(user_id);
-
-        if (tempUser.isPresent()) {
-            comment.setUser_id(tempUser.get());
-        } else {
-            throw new RuntimeException("Did not find User with ID: " + user_id);
-        }
-        return comment;
+        return Comment.builder()
+                .id(dto.getId() != null ? dto.getId() : null)
+                .description(dto.getDescription())
+                .parentId(dto.getParentId())
+                .userId(tempUser.get())
+                .build();
     }
 
     @Override
@@ -133,19 +127,17 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentReadDTO toDto(Comment comment) {
-        String description = comment.getDescription();
-        Date date = comment.getDate_created();
-        Integer parent_id = comment.getParent_id();
-        Integer id = comment.getId();
-        String username = comment.getUser_id().getUsername();
-        List<PhotoDTO> photoDTOS;
-        try {
-            List<Photo> photos = comment.getPhotos();
-            photoDTOS = photos.stream().map(photo -> photoConverter.toDto(photo)).toList();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-        return new CommentReadDTO(id, description , date, parent_id, username, photoDTOS);
+        return CommentReadDTO.builder()
+                .id(comment.getId())
+                .description(comment.getDescription())
+                .parentId(comment.getParentId())
+                .username(comment.getUserId() != null ? comment.getUserId().getUsername() : null)
+                .dateCreated(comment.getDateCreated())
+                .photoDTOs(comment.getPhotos() != null ?
+                        comment.getPhotos()
+                        .stream()
+                        .map(photo -> photoConverter.toDto(photo)).toList()
+                        : Collections.emptyList())
+                .build();
     }
 }

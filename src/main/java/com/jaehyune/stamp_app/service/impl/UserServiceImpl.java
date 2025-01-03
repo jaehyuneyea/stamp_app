@@ -71,22 +71,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User toEntity(UserDTO dto) {
-        User user = new User();
-
-        user.setId(dto.getId());
-        user.setEmail(dto.getEmail());
-        user.setUsername(dto.getUsername());
-
-        return user;
+        return User.builder()
+                .id(dto.getId())
+                .email(dto.getEmail())
+                .username(dto.getUsername())
+                .build();
     }
 
     @Override
     public UserDTO toDto(User user) {
-        UserDTO dto = new UserDTO();
-        dto.setId(user.getId());
-        dto.setEmail(user.getEmail());
-        dto.setUsername(user.getUsername());
-
-        return dto;
+        return UserDTO.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .username(user.getUsername())
+                .build();
     }
 }

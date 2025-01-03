@@ -75,16 +75,15 @@ public class CommentRestController {
                                    @PathVariable Integer stamp_id,
                                    @RequestPart Optional<MultipartFile[]> images) {
         // we return comment first so that it can return a valid id
-        dto.setId(0);
         Comment comment =  commentService.save(dto, stamp_id);
         if (images.isPresent()) {
 
             // Populate a list of PhotoDTOs with corresponding comment ID with length of images passed in
             List<PhotoDTO> dtos = new ArrayList<>();
             for (int i = 0; i <  images.get().length; i++) {
-                PhotoDTO tempDTO = new PhotoDTO();
-                tempDTO.setStamp_id(null);
-                tempDTO.setComment_id(comment.getId());
+                PhotoDTO tempDTO = PhotoDTO.builder().build();
+                tempDTO.setStampId(null);
+                tempDTO.setCommentId(comment.getId());
                 dtos.add(tempDTO);
             }
             // Create a Map that maps all photo metadata to be created that gets passed in as key and every MultipartFile as key
@@ -115,7 +114,7 @@ public class CommentRestController {
             throw new IdNotFoundException("Invalid ID: " + id);
         }
         CommentReadDTO comment = commentService.findById(id);
-        List<PhotoDTO> photoDTOS = comment.getPhotos();
+        List<PhotoDTO> photoDTOS = comment.getPhotoDTOs();
         if (!photoDTOS.isEmpty()) {
             for (PhotoDTO photoDTO: photoDTOS) {
                 String photoId = photoDTO.getId();
