@@ -9,6 +9,7 @@ target/
 **/.DS_Store
 
 images/
+**/application.properties
 
 ### STS ###
 .apt_generated
