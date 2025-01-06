@@ -30,7 +30,6 @@ class UserServiceImplUnitTest {
                 .email("test@email.com")
                 .password("123")
                 .build();
-//        UserCreationDTO userCreationDTO = new UserCreationDTO("testuser", "test@email.com", "123");
 
         User user = new User();
         user.setEmail(userCreationDTO.getEmail());
@@ -49,7 +48,6 @@ class UserServiceImplUnitTest {
                 .email("test@email.com")
                 .password("123")
                 .build();
-//        User user = new User("testuser", "test@email.com", "123");
 
         userService.updateUser(user);
 

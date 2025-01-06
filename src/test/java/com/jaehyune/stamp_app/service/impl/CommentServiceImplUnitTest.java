@@ -42,19 +42,16 @@ class CommentServiceImplUnitTest {
                 .parentId(null)
                 .userId(user_id)
                 .build();
-//        CommentCreationDTO commentCreationDTO = new CommentCreationDTO("test", null, user_id);
         User user = User.builder()
                 .username("test")
                 .email("test@email.com")
                 .password("123")
                 .build();
-//        User user = new User("test", "test@email.com", "123");
         Stamp stamp = Stamp.builder()
                 .description("test description")
                 .rating(4)
                 .railway("test railway")
                 .build();
-//        Stamp stamp = new Stamp("test description", 4, "test railway", null);
         Integer stamp_id = 1;
         Comment savedComment = Comment.builder()
                 .stampId(stamp)
@@ -62,7 +59,6 @@ class CommentServiceImplUnitTest {
                 .description("test")
                 .photos(new ArrayList<>())
                 .build();
-//        Comment savedComment = new Comment(stamp, user, null, "test", null, new ArrayList<>());
         savedComment.setId(1);
         // given that the user and stamp exists AND the save and findAll of repository works as functioned
         given(userRepository.findById(user_id)).willReturn(Optional.of(user));
@@ -114,7 +110,6 @@ class CommentServiceImplUnitTest {
                 .email("test@email.com")
                 .password("123")
                 .build();
-//        User user = new User("test", "test@email.com", "123");
         Stamp stamp = Stamp.builder()
                 .description("test description")
                 .rating(4)
@@ -156,13 +151,11 @@ class CommentServiceImplUnitTest {
                 .parentId(null)
                 .userId(user_id)
                 .build();
-//        CommentCreationDTO commentCreationDTO = new CommentCreationDTO("test", null, user_id);
         User user = User.builder()
                 .username("test")
                 .email("test@email.com")
                 .password("123")
                 .build();
-//        User user = new User("test", "test@email.com", "123");
         Stamp stamp = Stamp.builder()
                 .description("test description")
                 .rating(4)

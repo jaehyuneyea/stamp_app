@@ -41,8 +41,6 @@ class StampServiceImplUnitTest {
                 .railway("test rail")
                 .photo(null)
                 .build();
-//        StampDTO stampDTO = new StampDTO(stamp_id, "test", 5, "test rail", null);
-//        Stamp returnedStamp = new Stamp("test", 5, "test rail", null);
         given(stampRepository.save(any(Stamp.class))).willReturn(returnedStamp);
 
         stampService.save(stampDTO);
@@ -59,7 +57,6 @@ class StampServiceImplUnitTest {
                 .railway("test rail")
                 .photo(null)
                 .build();
-//        Stamp returnedStamp = new Stamp("test", 5, "test rail", null);
         returnedStamp.setComments(new ArrayList<>());
         given(stampRepository.findById(stamp_id)).willReturn(Optional.of(returnedStamp));
 
