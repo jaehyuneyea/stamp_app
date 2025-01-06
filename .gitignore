@@ -3,8 +3,13 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-**/application.properties
+**/application.propertie
+
+### Mac specific ###
+**/.DS_Store
+
 images/
+**/application.properties
 
 ### STS ###
 .apt_generated
