@@ -25,7 +25,12 @@ class UserServiceImplUnitTest {
 
     @Test
     void create_user() {
-        UserCreationDTO userCreationDTO = new UserCreationDTO("testuser", "test@email.com", "123");
+        UserCreationDTO userCreationDTO = UserCreationDTO.builder()
+                .username("testuser")
+                .email("test@email.com")
+                .password("123")
+                .build();
+//        UserCreationDTO userCreationDTO = new UserCreationDTO("testuser", "test@email.com", "123");
 
         User user = new User();
         user.setEmail(userCreationDTO.getEmail());
@@ -39,7 +44,12 @@ class UserServiceImplUnitTest {
     @Test
     void update_user() {
         // given a user already exists
-        User user = new User("testuser", "test@email.com", "123");
+        User user = User.builder()
+                .username("testuser")
+                .email("test@email.com")
+                .password("123")
+                .build();
+//        User user = new User("testuser", "test@email.com", "123");
 
         userService.updateUser(user);
 
@@ -59,8 +69,11 @@ class UserServiceImplUnitTest {
     @Test
     void findById_user() {
         Integer user_id = 1;
-        User user = new User("testuser", "test@email.com", "123");
-
+        User user = User.builder()
+                .username("testuser")
+                .email("test@email.com")
+                .password("123")
+                .build();
         given(userRepository.findById(user_id)).willReturn(Optional.of(user));
         userService.findById(user_id);
 

@@ -7,6 +7,7 @@ import com.jaehyune.stamp_app.entity.User;
 import com.jaehyune.stamp_app.repository.CommentRepository;
 import com.jaehyune.stamp_app.repository.StampRepository;
 import com.jaehyune.stamp_app.repository.UserRepository;
+import com.jaehyune.stamp_app.service.CommentService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -36,11 +37,32 @@ class CommentServiceImplUnitTest {
     void save_comment() {
         // given a comment object
         Integer user_id = 1;
-        CommentCreationDTO commentCreationDTO = new CommentCreationDTO("test", null, user_id);
-        User user = new User("test", "test@email.com", "123");
-        Stamp stamp = new Stamp("test description", 4, "test railway", null);
+        CommentCreationDTO commentCreationDTO = CommentCreationDTO.builder()
+                .description("test")
+                .parentId(null)
+                .userId(user_id)
+                .build();
+//        CommentCreationDTO commentCreationDTO = new CommentCreationDTO("test", null, user_id);
+        User user = User.builder()
+                .username("test")
+                .email("test@email.com")
+                .password("123")
+                .build();
+//        User user = new User("test", "test@email.com", "123");
+        Stamp stamp = Stamp.builder()
+                .description("test description")
+                .rating(4)
+                .railway("test railway")
+                .build();
+//        Stamp stamp = new Stamp("test description", 4, "test railway", null);
         Integer stamp_id = 1;
-        Comment savedComment = new Comment(stamp, user, null, "test", null, new ArrayList<>());
+        Comment savedComment = Comment.builder()
+                .stampId(stamp)
+                .userId(user)
+                .description("test")
+                .photos(new ArrayList<>())
+                .build();
+//        Comment savedComment = new Comment(stamp, user, null, "test", null, new ArrayList<>());
         savedComment.setId(1);
         // given that the user and stamp exists AND the save and findAll of repository works as functioned
         given(userRepository.findById(user_id)).willReturn(Optional.of(user));
@@ -59,7 +81,11 @@ class CommentServiceImplUnitTest {
         // this one requires less mocking because the exception is caught early and the mock parts are never invoked
         Integer stamp_id = -1;
         Integer user_id = 1;
-        CommentCreationDTO commentCreationDTO = new CommentCreationDTO("test", null, user_id);
+        CommentCreationDTO commentCreationDTO = CommentCreationDTO.builder()
+                .description("test")
+                .parentId(null)
+                .userId(user_id)
+                .build();
         // when save is called on the object
         assertThrows(RuntimeException.class, () -> commentService.save(commentCreationDTO, stamp_id));
         // verify it exists in the repository when it is called, and is invoked only once
@@ -71,7 +97,11 @@ class CommentServiceImplUnitTest {
     void save_comment_stamp_id_not_found() {
         Integer stamp_id = 3;
         Integer user_id = 1;
-        CommentCreationDTO commentCreationDTO = new CommentCreationDTO("test", null, user_id);
+        CommentCreationDTO commentCreationDTO = CommentCreationDTO.builder()
+                .description("test")
+                .parentId(null)
+                .userId(user_id)
+                .build();
         assertThrows(RuntimeException.class, () -> commentService.save(commentCreationDTO, stamp_id));
         verify(commentRepository, never()).save(any(Comment.class));
     }
@@ -79,11 +109,25 @@ class CommentServiceImplUnitTest {
     @Test
     void findById_comment() {
         Integer commentId = 1;
-        User user = new User("test", "test@email.com", "123");
-        Stamp stamp = new Stamp("test description", 4, "test railway", null);
+        User user = User.builder()
+                .username("test")
+                .email("test@email.com")
+                .password("123")
+                .build();
+//        User user = new User("test", "test@email.com", "123");
+        Stamp stamp = Stamp.builder()
+                .description("test description")
+                .rating(4)
+                .railway("test railway")
+                .build();
 
-        Comment comment = new Comment(stamp, user, null, "test", null, new ArrayList<>());
-        comment.setId(commentId);
+        Comment comment = Comment.builder()
+                .stampId(stamp)
+                .userId(user)
+                .description("test")
+                .photos(new ArrayList<>())
+                .id(commentId)
+                .build();
         given(commentRepository.findById(commentId)).willReturn(Optional.of(comment));
         commentService.findById(commentId);
         verify(commentRepository, times(1)).findById(commentId);
@@ -107,12 +151,30 @@ class CommentServiceImplUnitTest {
     void findAll_comment() {
         Integer user_id = 1;
         List<Comment> tempList = new ArrayList<>();
-        CommentCreationDTO commentCreationDTO = new CommentCreationDTO("test", null, user_id);
-        User user = new User("test", "test@email.com", "123");
-        Stamp stamp = new Stamp("test description", 4, "test railway", null);
+        CommentCreationDTO commentCreationDTO = CommentCreationDTO.builder()
+                .description("test")
+                .parentId(null)
+                .userId(user_id)
+                .build();
+//        CommentCreationDTO commentCreationDTO = new CommentCreationDTO("test", null, user_id);
+        User user = User.builder()
+                .username("test")
+                .email("test@email.com")
+                .password("123")
+                .build();
+//        User user = new User("test", "test@email.com", "123");
+        Stamp stamp = Stamp.builder()
+                .description("test description")
+                .rating(4)
+                .railway("test railway")
+                .build();
         Integer stamp_id = 1;
-        Comment savedComment = new Comment(stamp, user, null, "test", null, new ArrayList<>());
-        // given that the user and stamp exists AND the save and findAll of repository works as functioned
+        Comment savedComment = Comment.builder()
+                .stampId(stamp)
+                .userId(user)
+                .description("test")
+                .photos(new ArrayList<>())
+                .build();        // given that the user and stamp exists AND the save and findAll of repository works as functioned
         given(userRepository.findById(user_id)).willReturn(Optional.of(user));
         given(stampRepository.findById(stamp_id)).willReturn(Optional.of(stamp));
         given(commentRepository.save(any(Comment.class))).willReturn(savedComment);

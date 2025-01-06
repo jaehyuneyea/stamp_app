@@ -28,8 +28,21 @@ class StampServiceImplUnitTest {
         // assume stamp repository works fine
         // test behaviour
         Integer stamp_id = 1;
-        StampDTO stampDTO = new StampDTO(stamp_id, "test", 5, "test rail", null);
-        Stamp returnedStamp = new Stamp("test", 5, "test rail", null);
+        StampDTO stampDTO = StampDTO.builder()
+                .id(stamp_id)
+                .description("test")
+                .rating(5)
+                .railway("test rail")
+                .comments(null)
+                .build();
+        Stamp returnedStamp = Stamp.builder()
+                .description("test")
+                .rating(5)
+                .railway("test rail")
+                .photo(null)
+                .build();
+//        StampDTO stampDTO = new StampDTO(stamp_id, "test", 5, "test rail", null);
+//        Stamp returnedStamp = new Stamp("test", 5, "test rail", null);
         given(stampRepository.save(any(Stamp.class))).willReturn(returnedStamp);
 
         stampService.save(stampDTO);
@@ -40,7 +53,13 @@ class StampServiceImplUnitTest {
     @Test
     void findById_stamp_success() {
         Integer stamp_id = 1;
-        Stamp returnedStamp = new Stamp("test", 5, "test rail", null);
+        Stamp returnedStamp = Stamp.builder()
+                .description("test")
+                .rating(5)
+                .railway("test rail")
+                .photo(null)
+                .build();
+//        Stamp returnedStamp = new Stamp("test", 5, "test rail", null);
         returnedStamp.setComments(new ArrayList<>());
         given(stampRepository.findById(stamp_id)).willReturn(Optional.of(returnedStamp));
 
