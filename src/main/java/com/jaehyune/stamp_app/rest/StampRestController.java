@@ -2,6 +2,7 @@ package com.jaehyune.stamp_app.rest;
 
 import com.jaehyune.stamp_app.dto.PhotoDTO;
 import com.jaehyune.stamp_app.dto.StampDTO;
+import com.jaehyune.stamp_app.entity.Photo;
 import com.jaehyune.stamp_app.entity.Stamp;
 import com.jaehyune.stamp_app.rest.error.IdNotFoundException;
 import com.jaehyune.stamp_app.service.PhotoService;
@@ -39,19 +40,35 @@ public class StampRestController {
         }
         Stamp stamp = stampService.save(dto);
         if (image.isPresent()) {
-            PhotoDTO photoDTO = PhotoDTO.builder().build();
-            photoDTO.setStampId(stamp.getId());
+            PhotoDTO photoDTO = PhotoDTO.builder()
+                    .stampId(stamp.getId())
+                    .build();
             stamp.setPhoto(photoService.save(photoDTO, image.get()));
         }
         return stamp;
     }
     // TODO: Handle updates with images
     @PutMapping("/stamps")
-    public Stamp updateStamp(@RequestBody StampDTO dto) {
-        if (dto.getId() == null) {
-            throw new RuntimeException("ID field should not be null for editting stamps");
+    public Stamp updateStamp(@RequestPart StampDTO dto,
+                             @RequestPart Optional<MultipartFile> image) {
+        if (dto.getId() == null || dto.getId() < 0) {
+            throw new RuntimeException("Invalid ID");
         }
-        return stampService.save(dto);
+        // in the end all we changed was the null check and checking if a photo already existed
+        // plus deleting existing photos in photoRepository
+        dto.setPhoto(stampService.findById(dto.getId()).getPhoto());
+        Stamp stamp = stampService.save(dto);
+        if (image.isPresent()) {
+            PhotoDTO photoDTO = PhotoDTO.builder()
+                    .stampId(dto.getId())
+                    .id(dto.getPhoto() != null ? dto.getPhoto().getId() : null)
+                    .build();
+            stamp.setPhoto(photoService.save(photoDTO, image.get()));
+            // other stuff weren't necessary because it's a roundabout way
+            // we can instead save the contents of the dto first to the db, then set stamp's photo to the photo we save
+            // my guess is stamp doesn't say in time for the thing if we save after wards?
+        }
+        return stamp;
     }
 
     // read stamp by id
