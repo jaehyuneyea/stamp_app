@@ -104,7 +104,6 @@ public class CommentServiceImpl implements CommentService {
         commentRepository.deleteById(id);
     }
 
-    // TODO: Lombok
     public Comment toEntity(CommentCreationDTO dto) {
         Integer userId = dto.getUserId();
         Optional<User> tempUser = userRepository.findById(userId);
