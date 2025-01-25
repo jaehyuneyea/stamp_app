@@ -43,4 +43,6 @@ public interface UserService extends ConverterMediator<User, UserDTO> {
      * @return A list DTOs for Users that were found. Return an empty list if else.
      */
     List<UserDTO> findAll();
+
+    Integer findByName(String username);
 }

@@ -47,7 +47,6 @@ public class StampRestController {
         }
         return stamp;
     }
-    // TODO: Handle updates with images
     @PutMapping("/stamps")
     public Stamp updateStamp(@RequestPart StampDTO dto,
                              @RequestPart Optional<MultipartFile> image) {
@@ -61,7 +60,7 @@ public class StampRestController {
         if (image.isPresent()) {
             PhotoDTO photoDTO = PhotoDTO.builder()
                     .stampId(dto.getId())
-                    .id(dto.getPhoto() != null ? dto.getPhoto().getId() : null)
+                    .id(dto.getPhoto() != null ? dto.getPhoto().getId() : null) // if photo already exists
                     .build();
             stamp.setPhoto(photoService.save(photoDTO, image.get()));
             // other stuff weren't necessary because it's a roundabout way

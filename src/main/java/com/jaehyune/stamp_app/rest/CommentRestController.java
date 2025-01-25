@@ -8,9 +8,12 @@ import com.jaehyune.stamp_app.entity.Photo;
 import com.jaehyune.stamp_app.rest.error.IdNotFoundException;
 import com.jaehyune.stamp_app.service.CommentService;
 import com.jaehyune.stamp_app.service.PhotoService;
+import com.jaehyune.stamp_app.service.UserService;
+import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -33,10 +36,12 @@ public class CommentRestController {
 
     private CommentService commentService;
     private PhotoService photoService;
+    private UserService userService;
 
-    public CommentRestController(CommentService commentService, PhotoService photoService) {
+    public CommentRestController(CommentService commentService, PhotoService photoService, UserService userService) {
         this.commentService = commentService;
         this.photoService = photoService;
+        this.userService = userService;
     }
 
     @GetMapping("/comments/{id}")
@@ -88,7 +93,7 @@ public class CommentRestController {
             }
             // Create a Map that maps all photo metadata to be created that gets passed in as key and every MultipartFile as key
             Map<PhotoDTO, MultipartFile> photoMap = IntStream.range(0, dtos.size()).boxed()
-                    .collect(Collectors.toMap(i -> dtos.get(i), i -> images.get()[i]));
+                    .collect(Collectors.toMap(dtos::get, i -> images.get()[i]));
 
             List<Photo> photoList = new ArrayList<>();
             photoMap.forEach((k,v) -> {
@@ -101,8 +106,56 @@ public class CommentRestController {
 
     // TODO: Handle images for editting comments as well
     @PutMapping("/stamps/{stamp_id}/comments")
-    public Comment editComment(@RequestBody CommentCreationDTO comment, @PathVariable Integer stamp_id) {
-        return commentService.save(comment, stamp_id);
+    public Comment editComment(@RequestPart CommentCreationDTO dto,
+                               @PathVariable Integer stamp_id,
+                               @RequestPart Optional<MultipartFile[]> images) {
+        Comment comment = commentService.save(dto, stamp_id);
+        return comment; // styb
+    }
+    // we assume that any images in the images field are images explicitly meant to be added which is to be
+    // handled by the client.
+    @PatchMapping("stamps/{stamp_id}/comments/{comment_id}")
+    public Comment editComment(@RequestPart Map<String, Object> fields,
+                               @PathVariable Integer stamp_id,
+                               @PathVariable Integer comment_id,
+                               @RequestPart Optional<MultipartFile[]> images) {
+        // a request body for handling comment definition
+        CommentReadDTO commentReadDTO = commentService.findById(comment_id);
+        if (commentReadDTO == null) {
+            throw new RuntimeException("Comment not found");
+        }
+        fields.forEach((k,v) -> {
+            if (k.equals("delete")) {
+
+            } else {
+                Field field = ReflectionUtils.findField(CommentReadDTO.class, k);
+                field.setAccessible(true);
+                ReflectionUtils.setField(field, commentReadDTO, v);
+            }
+        });
+        CommentCreationDTO commentCreationDTO = CommentCreationDTO.builder()
+                .id(comment_id)
+                .userId(userService.findByName(commentReadDTO.getUsername()))
+                .parentId(commentReadDTO.getParentId())
+                .description(commentReadDTO.getDescription())
+                .build();
+        Comment comment = commentService.save(commentCreationDTO, stamp_id);
+        // image handling
+        List<Photo> photos = comment.getPhotos();
+        if (photos == null) {
+            photos = new ArrayList<>();
+        }
+        if (images.isPresent()) {
+            for (MultipartFile image : images.get()) {
+                PhotoDTO photoDTO = PhotoDTO.builder()
+                        .commentId(comment.getId())
+                        .build();
+                photos.add(photoService.save(photoDTO, image));
+            }
+        comment.setPhotos(photos);
+        }
+        // TODO: Handle deletes, and also have it return updated value of the actual photo list
+        return comment;
     }
 
     /**
