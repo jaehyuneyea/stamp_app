@@ -126,7 +126,21 @@ public class CommentRestController {
         }
         fields.forEach((k,v) -> {
             if (k.equals("delete")) {
-
+                // we're casting / expecting v to be a list of keys to delete
+                if (v instanceof List<?>) {
+                    try {
+                        List<String> deleteList = (List<String>) v;
+                        // check to see if all the keys are valid before deleting any images first
+                        for (String s : deleteList) {
+                            photoService.findById(s);
+                        }
+                        for (String s : deleteList) {
+                            photoService.delete(s);
+                        }
+                    } catch (RuntimeException e) {
+                        throw new RuntimeException("Unexpected Error Occurred");
+                    }
+                }
             } else {
                 Field field = ReflectionUtils.findField(CommentReadDTO.class, k);
                 field.setAccessible(true);
