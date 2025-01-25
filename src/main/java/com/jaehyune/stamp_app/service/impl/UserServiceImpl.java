@@ -5,6 +5,7 @@ import com.jaehyune.stamp_app.dto.UserDTO;
 import com.jaehyune.stamp_app.entity.User;
 import com.jaehyune.stamp_app.repository.UserRepository;
 import com.jaehyune.stamp_app.service.UserService;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -53,6 +54,11 @@ public class UserServiceImpl implements UserService {
     public List<UserDTO> findAll() {
         List<User> users = userRepository.findAll();
         return users.stream().map(this::toDto).toList();
+    }
+
+    @Override
+    public Integer findByName(String username) {
+        return userRepository.findByName(username);
     }
 
     @Override

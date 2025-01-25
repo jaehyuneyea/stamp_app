@@ -3,6 +3,8 @@ package com.jaehyune.stamp_app.dto;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * This class represents a DTO used for retrieving a Photo entity from the server side.
  * This refers to only the metadata, not the actual file.
@@ -21,4 +23,5 @@ public class PhotoDTO {
     private Integer stampId;
     private Integer commentId;
     private String filePath;
+    private Date dateCreated;
 }

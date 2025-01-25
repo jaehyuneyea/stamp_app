@@ -50,20 +50,27 @@ public class PhotoRepositoryImpl implements PhotoRepository {
      */
     @Override
     public Photo save(Photo photo, MultipartFile image) {
+        // find a way to check if a photo already exists so we can get rid of it? ID doesn't really work
         String filepath = System.getenv("FILE_PATH");
-        photo.setId(UUID.randomUUID().toString());
+
+        String uuid = UUID.randomUUID().toString();
         try {
             Path path = Paths.get(filepath);
             if (!Files.exists(path)) {
                 Files.createDirectory(path); // create if not already exists
             }
             InputStream imageData = image.getInputStream();
-            Path imagePath = path.resolve(photo.getId() + ".jpg");
+            Path imagePath = path.resolve(uuid + ".jpg");
             photo.setFilePath(imagePath.toString());
             Files.copy(imageData, imagePath);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        // check to see if a photo is already associated, if it is, delete afterwards
+        if (photo.getId() != null) {
+            delete(photo.getId());
+        }
+        photo.setId(uuid);
         return entityManager.merge(photo);
     }
 
@@ -75,7 +82,7 @@ public class PhotoRepositoryImpl implements PhotoRepository {
     public void delete(String id) {
         Photo photo = entityManager.find(Photo.class, id);
         try {
-            String filepath = "C:/Users/Alpha PC/Desktop/repos/stamp-app/images";
+            String filepath = System.getenv("FILE_PATH");
             Path imagePath = Paths.get(filepath).resolve(photo.getId() + ".jpg");
             Files.delete(imagePath);
         } catch (IOException e) {

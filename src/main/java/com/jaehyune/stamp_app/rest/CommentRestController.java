@@ -8,9 +8,12 @@ import com.jaehyune.stamp_app.entity.Photo;
 import com.jaehyune.stamp_app.rest.error.IdNotFoundException;
 import com.jaehyune.stamp_app.service.CommentService;
 import com.jaehyune.stamp_app.service.PhotoService;
+import com.jaehyune.stamp_app.service.UserService;
+import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -33,10 +36,12 @@ public class CommentRestController {
 
     private CommentService commentService;
     private PhotoService photoService;
+    private UserService userService;
 
-    public CommentRestController(CommentService commentService, PhotoService photoService) {
+    public CommentRestController(CommentService commentService, PhotoService photoService, UserService userService) {
         this.commentService = commentService;
         this.photoService = photoService;
+        this.userService = userService;
     }
 
     @GetMapping("/comments/{id}")
@@ -88,7 +93,7 @@ public class CommentRestController {
             }
             // Create a Map that maps all photo metadata to be created that gets passed in as key and every MultipartFile as key
             Map<PhotoDTO, MultipartFile> photoMap = IntStream.range(0, dtos.size()).boxed()
-                    .collect(Collectors.toMap(i -> dtos.get(i), i -> images.get()[i]));
+                    .collect(Collectors.toMap(dtos::get, i -> images.get()[i]));
 
             List<Photo> photoList = new ArrayList<>();
             photoMap.forEach((k,v) -> {
@@ -99,10 +104,83 @@ public class CommentRestController {
         return comment;
     }
 
-    // TODO: Handle images for editting comments as well
-    @PutMapping("/stamps/{stamp_id}/comments")
-    public Comment editComment(@RequestBody CommentCreationDTO comment, @PathVariable Integer stamp_id) {
-        return commentService.save(comment, stamp_id);
+    /**
+     * This request assumes that any images in the image parameter are explicitly meant to be added.
+     * The format of the patch request is as follows:
+     * The PATCH request is requested from the client side with a well formatted HTTP request.
+     * {
+     *     "delete": ["photo-id-1", "photo-id-2"]
+     *     "description": changed description
+     * }
+     *
+     * This method throws an error if the JSON is not well-formed; particularly if the delete pair is not an instance
+     * of a list.
+     *
+     * @param fields a map of a String,Object pair representing the JSON that is passed in to the request.
+     *               Uses reflectionUtils to match the fields of CommentReadDTO to directly mutate the fields
+     *               and save any changes made.
+     * @param stamp_id id of the stamp which the comment is associated to. This is in the URL path.
+     * @param comment_id id of the specific comment. This is in the URL path.
+     * @param images an array of Multipart files. These images are explicitly meant to be added to the current
+     *               collection of images that may already be associated with the specific comment of the given id.
+     * @return the complete, changed comment. If the description of the comment was changed, it returns the changed
+     *               comment description, as well as the new list of images that are associated to that comment.
+     */
+    @PatchMapping("stamps/{stamp_id}/comments/{comment_id}")
+    public Comment editComment(@RequestPart Map<String, Object> fields,
+                               @PathVariable Integer stamp_id,
+                               @PathVariable Integer comment_id,
+                               @RequestPart Optional<MultipartFile[]> images) throws RuntimeException {
+        // a request body for handling comment definition
+        CommentReadDTO commentReadDTO = commentService.findById(comment_id);
+        // for each key value pair in the JSON body
+        fields.forEach((k,v) -> {
+            if (k.equals("delete")) {
+                // we're casting / expecting v to be a list of keys to delete
+                if (v instanceof List<?>) {
+                    try {
+                        List<String> deleteList = (List<String>) v;
+                        // check to see if all the keys are valid before deleting any images first
+                        for (String s : deleteList) {
+                            photoService.findById(s);
+                        }
+                        for (String s : deleteList) {
+                            photoService.delete(s);
+                        }
+                    } catch (RuntimeException e) {
+                        throw new RuntimeException("Unexpected Error Occurred");
+                    }
+                }
+            } else {
+                Field field = ReflectionUtils.findField(CommentReadDTO.class, k);
+                field.setAccessible(true);
+                ReflectionUtils.setField(field, commentReadDTO, v);
+            }
+        });
+        // we need to change the readDTO to creationDTO (might need to unify the two later)
+        CommentCreationDTO commentCreationDTO = CommentCreationDTO.builder()
+                .id(comment_id)
+                .userId(userService.findByName(commentReadDTO.getUsername()))
+                .parentId(commentReadDTO.getParentId())
+                .description(commentReadDTO.getDescription())
+                .build();
+        Comment comment = commentService.save(commentCreationDTO, stamp_id);
+
+        // image handling
+        List<Photo> photos = new ArrayList<>(commentReadDTO.getPhotoDTOs()
+                .stream()
+                .map(photoService::toEntity)
+                .toList());
+        if (images.isPresent()) {
+            for (MultipartFile image : images.get()) {
+                PhotoDTO photoDTO = PhotoDTO.builder()
+                        .commentId(comment.getId())
+                        .build();
+                photos.add(photoService.save(photoDTO, image));
+            }
+        comment.setPhotos(photos);
+        }
+        return comment;
     }
 
     /**

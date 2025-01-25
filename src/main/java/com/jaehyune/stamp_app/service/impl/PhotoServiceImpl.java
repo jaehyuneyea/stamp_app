@@ -57,6 +57,13 @@ public class PhotoServiceImpl implements PhotoService {
     public Photo toEntity(PhotoDTO dto) {
         Comment comment = null;
         Stamp stamp = null;
+        if (dto == null) {
+            return Photo.builder()
+                    .comment(comment)
+                    .stamp(stamp)
+                    .id(null)
+                    .build();
+        }
         if (dto.getCommentId() != null) {
             Optional<Comment> optComment = commentRepository.findById(dto.getCommentId());
             if (optComment.isPresent()) {
@@ -77,6 +84,9 @@ public class PhotoServiceImpl implements PhotoService {
         return Photo.builder()
                 .comment(comment)
                 .stamp(stamp)
+                .id(dto.getId())
+                .filePath(dto.getFilePath())
+                .dateCreated(dto.getDateCreated())
                 .build();
     }
 
@@ -87,6 +97,7 @@ public class PhotoServiceImpl implements PhotoService {
                 .commentId(photo.getComment() != null ? photo.getComment().getId() : null)
                 .stampId(photo.getStamp() != null ? photo.getStamp().getId() : null)
                 .filePath(photo.getFilePath())
+                .dateCreated(photo.getDateCreated())
                 .build();
     }
 }
