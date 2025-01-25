@@ -85,6 +85,8 @@ public class PhotoServiceImpl implements PhotoService {
                 .comment(comment)
                 .stamp(stamp)
                 .id(dto.getId())
+                .filePath(dto.getFilePath())
+                .dateCreated(dto.getDateCreated())
                 .build();
     }
 
@@ -95,6 +97,7 @@ public class PhotoServiceImpl implements PhotoService {
                 .commentId(photo.getComment() != null ? photo.getComment().getId() : null)
                 .stampId(photo.getStamp() != null ? photo.getStamp().getId() : null)
                 .filePath(photo.getFilePath())
+                .dateCreated(photo.getDateCreated())
                 .build();
     }
 }

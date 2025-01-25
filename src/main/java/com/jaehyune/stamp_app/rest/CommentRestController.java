@@ -155,10 +155,10 @@ public class CommentRestController {
                 .build();
         Comment comment = commentService.save(commentCreationDTO, stamp_id);
         // image handling
-        List<Photo> photos = comment.getPhotos();
-        if (photos == null) {
-            photos = new ArrayList<>();
-        }
+        List<Photo> photos = new ArrayList<>(commentReadDTO.getPhotoDTOs()
+                .stream()
+                .map(photoService::toEntity)
+                .toList());
         if (images.isPresent()) {
             for (MultipartFile image : images.get()) {
                 PhotoDTO photoDTO = PhotoDTO.builder()
@@ -168,7 +168,6 @@ public class CommentRestController {
             }
         comment.setPhotos(photos);
         }
-        // TODO: Handle deletes, and also have it return updated value of the actual photo list
         return comment;
     }
 
