@@ -7,6 +7,7 @@ import com.jaehyune.stamp_app.entity.Stamp;
 import com.jaehyune.stamp_app.rest.error.IdNotFoundException;
 import com.jaehyune.stamp_app.service.PhotoService;
 import com.jaehyune.stamp_app.service.StampService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
